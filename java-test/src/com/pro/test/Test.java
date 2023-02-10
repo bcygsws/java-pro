@@ -9,14 +9,14 @@ class Father {
 }
 
 public class Test extends Father {
-//      静态块在类被加载时调用
-//    static {
-//        System.out.println("静态块不论书写位置如何都会在入口函数之前执行");
-//    }
+    // 静态块在类被加载时调用
+    // static {
+    //     System.out.println("静态块不论书写位置如何都会在入口函数之前执行");
+    // }
 
     public static void main(String[] args) {
         System.out.println("你好");
-//        向上转型
+        // 向上转型
         Father c = new Test();
         c.print();
     }
@@ -29,6 +29,7 @@ public class Test extends Father {
  * 静态方法和类对象方法
  * java中使用static关键字修饰的方法，叫做静态方法；不用static修饰的方法，是属于具体类型的方法（实例方法）
  *
+ * 静态方法注意事项：
  * 1.引用实例方法，可以使用对象.实例方法或者类名.实例方法来调用
  * 2.static方法不能被覆盖
  * 3.static方法只能访问static方法（和static成员），不能访问非static方法，但非static方法可以访问静态方法
