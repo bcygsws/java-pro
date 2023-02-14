@@ -36,9 +36,13 @@ public class Inheritance {
         int[] a = {13, 5, 16, 7, 23};
         // 打印排序后的数组
         s.insertedSort(a);
-        for (int i = 0; i < a.length; i++) {
-            System.out.print(a[i] + "\t");
+        for (int j = 0; j < a.length; j++) {
+            System.out.print(a[j] + "\t");
         }
+        // 增强版for循环写法
+        // for (int j : a) {
+        //     System.out.print(j + "\t");
+        // }
     }
 }
 
@@ -92,10 +96,10 @@ public class Inheritance {
  * 3.子类和父类中有相同的成员变量时，子类中的成员变量会覆盖父类中的成员变量，子类不会继承父类中的成员变量
  * 4.子类和父类中有相同的方法名和参数列表（参数个数、类型、顺序）时，子类中的方法会覆盖父类中的方法，子类不会继承父类的方法
  * <p>
- *
- *
+ * <p>
+ * <p>
  * IDEA bug：剪切和粘贴ctrl+v/ctrl+x失效
  * 解决办法；
+ * 参考文档：https://dandelioncloud.cn/article/details/1529603728915316737
  * 菜单栏-工具-将Vim Emulator前面的 √ 去掉就可以了
- * 
  */
