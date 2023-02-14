@@ -2,7 +2,7 @@ package com.my.test;
 
 class Sort {
     /**
-     * @param 数组a
+     * @param
      * @return 返回排序后的数组
      */
     // 定义插入排序函数insertedSort
@@ -43,11 +43,17 @@ public class Inheritance {
         // for (int j : a) {
         //     System.out.print(j + "\t");
         // }
+        Son son = new Son();
+        System.out.println("");
+        son.tell();
     }
 }
 
 /**
- * @ 面向对象的特征
+ * @ 面向对象的特征-继承
+ * 参考文档1：https://www.cnblogs.com/zxdongcopyright/p/16387287.html
+ * 参考文档2：https://blog.csdn.net/qq_58710208/article/details/120410867
+ * <p>
  * 一、继承
  * 继承是一种联结类的层次结构，允许和鼓励类的重用。子类继承父类的特性
  * 1.新类称为原始类的派生类，原始类称为新类的基类
