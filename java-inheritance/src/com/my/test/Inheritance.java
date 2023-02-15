@@ -1,12 +1,16 @@
+/**
+ * @Description: 面向对象基本特征之继承
+ * @author: baochengyi
+ * @date: 2023.02.15
+ * @param null
+ * @return null
+ **/
 package com.my.test;
 
 class Sort {
-    /**
-     * @param
-     * @return 返回排序后的数组
-     */
-    // 定义插入排序函数insertedSort
-    public int[] insertedSort(int[] a) {
+    // 返回：返回排序后的数组
+    // 定义插入排序函数inserted
+    public void inserted(int[] a) {
         if (a != null) {
             // 1.for循环，外循环控制趟数
             for (int i = 1; i < a.length; i++) {
@@ -23,7 +27,6 @@ class Sort {
                 a[j] = temp;
             }
         }
-        return a;
     }
 }
 
@@ -35,7 +38,7 @@ public class Inheritance {
         // insertedSort函数，传入一个数组，实现升序排序
         int[] a = {13, 5, 16, 7, 23};
         // 打印排序后的数组
-        s.insertedSort(a);
+        s.inserted(a);
         for (int j = 0; j < a.length; j++) {
             System.out.print(a[j] + "\t");
         }
@@ -48,11 +51,11 @@ public class Inheritance {
         son.tell();
     }
 }
-
 /**
  * @ 面向对象的特征-继承
  * 参考文档1：https://www.cnblogs.com/zxdongcopyright/p/16387287.html
  * 参考文档2：https://blog.csdn.net/qq_58710208/article/details/120410867
+ * 文档2很重要，涉及Java中三大基本特征的东西：理解记忆，重要
  * <p>
  * 一、继承
  * 继承是一种联结类的层次结构，允许和鼓励类的重用。子类继承父类的特性
@@ -108,4 +111,9 @@ public class Inheritance {
  * 解决办法；
  * 参考文档：https://dandelioncloud.cn/article/details/1529603728915316737
  * 菜单栏-工具-将Vim Emulator前面的 √ 去掉就可以了
+ *
+ * IDEA 文件头注释：只设置了Java
+ * 解决办法：
+ * 参考文档：https://www.jianshu.com/p/e748cf3e5799
+ * // + tab键，可以生成一个空的头文件块注释
  */
