@@ -105,20 +105,26 @@ public class Inheritance {
  * 3.子类和父类中有相同的成员变量时，子类中的成员变量会覆盖父类中的成员变量，子类不会继承父类中的成员变量
  * 4.子类和父类中有相同的方法名和参数列表（参数个数、类型、顺序）时，子类中的方法会覆盖父类中的方法，子类不会继承父类的方法
  *
- * IDEA bug：剪切和粘贴ctrl+v/ctrl+x失效
+ * IDEA bug：
+ * bug1:
+ * 剪切和粘贴ctrl+v/ctrl+x失效
  * 解决办法；
  * 参考文档：https://dandelioncloud.cn/article/details/1529603728915316737
  * 菜单栏-工具-将Vim Emulator前面的 √ 去掉就可以了
  *
+ * bug2:
  * IDEA 文件头注释：只设置了Java
  * 解决办法：
  * 参考文档：https://www.jianshu.com/p/e748cf3e5799
  *
+ * bug3:
  * 快捷键：// + tab键
  * 可以生成一个空的头文件块注释
  *
+ * bug4:
  * 快捷键：块注释 ctrl+shift+A
  *
+ * bug5:
  * IDEA 空行shift+alt+p，块注释中出现了p
  * 解决办法：
  * https://blog.csdn.net/qq_15674695/article/details/90896602
