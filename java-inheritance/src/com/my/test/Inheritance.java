@@ -49,6 +49,9 @@ public class Inheritance {
         Son son = new Son();
         System.out.println("");
         son.tell();
+        Person p1 = new Person("张红", "女性", 18);
+        System.out.println("---------------");
+        Person p2 = new Person("陶喆", "男性", 19);
     }
 }
 /**
@@ -129,5 +132,4 @@ public class Inheritance {
  * 解决办法：
  * https://blog.csdn.net/qq_15674695/article/details/90896602
  * 代码样式-Java-其他，将“在其他空行中生成p” 前面的√ 去掉就好了
- *
  */
