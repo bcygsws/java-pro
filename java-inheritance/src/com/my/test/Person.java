@@ -50,9 +50,26 @@ class Animal {
     static {
         System.out.println("父类Animal静态代码块");
     }
+
+    String name;
+    String gender;
+    int age;
+
+    // 父类的实例代码块
+    {
+        System.out.println("父类Animal的实例代码块");
+    }
+
+    public Animal(String name, String gender, int age) {
+        this.name = name;
+        this.gender = gender;
+        this.age = age;
+        System.out.println("父类Animal的构造方法");
+    }
 }
 
 class Cat extends Animal {
+    // 静态代码块，随着类的定义，开始装载和分配；而且静态代码块只执行一次
     static {
         System.out.println("子类Cat静态代码块");
     }
@@ -61,14 +78,17 @@ class Cat extends Animal {
     String gender;
     int age;
 
+    // 实例代码块在new构造函数调用之前执行，每new创建一次，执行一次
     {
         System.out.println("子类Cat的实例代码块");
     }
 
     public Cat(String name, String gender, int age) {
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
+        // this.name = name;
+        // this.gender = gender;
+        // this.age = age;
+        // 父类是有参构造函数，子类使用super调用一下，而且super(name,gender,age);放在第一行
+        super(name, gender, age);
         System.out.println("子类Cat的构造函数调用");
     }
 }

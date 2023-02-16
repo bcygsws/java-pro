@@ -52,6 +52,10 @@ public class Inheritance {
         Person p1 = new Person("张红", "女性", 18);
         System.out.println("---------------");
         Person p2 = new Person("陶喆", "男性", 19);
+        System.out.println("***************");
+        Cat c1 = new Cat("小猫", "雄性", 3);
+        System.out.println("---------------");
+        Cat c2 = new Cat("囡囡", "雌性", 2);
     }
 }
 /**
