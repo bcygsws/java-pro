@@ -59,6 +59,9 @@ public class Inheritance {
         // 四、五 super关键字和构造函数
         MyDerived md = new MyDerived();
         md.method();
+        // 三、访问父类成员
+        Sn1 sn1 = new Sn1();
+        sn1.method();
 
     }
 }
