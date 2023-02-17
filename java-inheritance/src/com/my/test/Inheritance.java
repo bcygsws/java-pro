@@ -56,6 +56,10 @@ public class Inheritance {
         Cat c1 = new Cat("小猫", "雄性", 3);
         System.out.println("---------------");
         Cat c2 = new Cat("囡囡", "雌性", 2);
+        // 四、五 super关键字和构造函数
+        MyDerived md = new MyDerived();
+        md.method();
+
     }
 }
 /**
