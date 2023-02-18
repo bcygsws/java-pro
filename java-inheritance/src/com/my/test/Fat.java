@@ -33,10 +33,13 @@ class Fat1 {
 class Sn1 extends Fat1 {
     int b;// 与父类同名，不同类型
     int c;// 与父类同名，相同类型
+// 参考文档：https://blog.csdn.net/Msc30839573/article/details/127725734
+// char转化int，自动转化；然后，int转char需要强制类型转换
 
     public void method() {
         a = 10;// 子类中没有定义，访问的是父类中的a
-        b = '1';//
+        // 首先子类和父类中都定义了变量b,使用子类中的变量b,int b='1';char类型的'1'自动转换成ASCII码规定的十进制数字49
+        b = '1';// '1' ASCII码对应的字符就是49，所以打印b是49
         c = 30;//
         System.out.println(b);// 49
         System.out.println(c);// 30 访问的是子类的变量c
@@ -44,6 +47,7 @@ class Sn1 extends Fat1 {
         System.out.println(c == super.c);// false
     }
 }
+
 /*
  *
  * @ 访问父类成员
