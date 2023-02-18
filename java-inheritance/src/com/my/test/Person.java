@@ -144,6 +144,14 @@ class MyDerived extends MyBase {
 }
 /*
  * 参考文档：https://blog.csdn.net/qq_58710208/article/details/120410867
+ * 一、继承语法
+ * 写法：
+ * 修饰符 class 子类名 extends 父类{
+ *
+ * }
+ * 二、继承（概念拆开）
+ * 2.1 子类继承父类的成员变量和成员方法
+ * 2.2 同时，子类能改添加和修改自己的方法
  *
  * 三、父类成员访问
  * Fat类
