@@ -7,9 +7,92 @@ package com.nx.to;
  * @date 2023/2/19 23:13
  * @description
  */
-public class MyDate {
+public class OverrideTest {
+    public static void main(String[] args) {
+        MyDate t1 = new MyDate();
+        // a.未在MyDate类中重写toString方法前，打印t1对象
+        // System.out.println(t1);// com.nx.to.MyDate@3ac3fd8b
+        // System.out.println(t1.toString());// com.nx.to.MyDate@3ac3fd8b
+
+        // b.在MyDate类中重写toString()方法后，打印实例对象t1和t1.toString()的结果是：
+        // new MyDate()时，该类的无参构造函数执行，该构造函数调用了它的一个重载方法MyDate(int year,int month,int day)
+        System.out.println(t1);// 1970年1月1日
+        System.out.println(t1.toString());// 1970年1月1日
+
+        Student stu = new Student(1212, "张瑶");
+        // a.在Student中重写toString()方法前
+        // System.out.println(stu);// com.nx.to.Student@5315b42e
+        // System.out.println(stu.toString());// com.nx.to.Student@5315b42e
+        // b.在Student中重写toString()方法前
+        System.out.println(stu);//姓名：张瑶 学号：1212
+        System.out.println(stu.toString());// 姓名：张瑶 学号：1212
+    }
 
 }
+
+class MyDate {
+    private int year;
+    private int month;
+    private int day;
+
+    // 构造方法
+    public MyDate() {
+        // 在构造函数的第一行，使用this关键字，调用有三个参数的构造函数
+        this(1970, 1, 1);
+    }
+
+    // 构造方法的重载
+    public MyDate(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+    }
+
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    // 重写Object类中的toString()方法后，观察打印对象t1和t1.toString()的变化
+    public String toString() {
+        return this.year + "年" + this.month + "月" + this.day + "日";
+    }
+}
+
+class Student {
+    private int no;
+    private String name;
+
+    public Student(int no, String name) {
+        this.no = no;
+        this.name = name;
+    }
+
+    public String toString() {
+        return "姓名：" + this.name + "\t学号：" + this.no;
+    }
+}
+
 /*
  *
  * @ Java多态的表现形式：编译时多态 重载 和运行时多态 覆盖
