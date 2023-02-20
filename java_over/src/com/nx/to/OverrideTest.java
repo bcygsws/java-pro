@@ -26,8 +26,51 @@ public class OverrideTest {
         // b.在Student中重写toString()方法前
         System.out.println(stu);//姓名：张瑶 学号：1212
         System.out.println(stu.toString());// 姓名：张瑶 学号：1212
+
+        // 四、向上转型和向下转型
+        // 4.1 向上转型，子类对象实例赋值给父类型对象（编译时是父类的move方法），子类调用方法运行时却表现出子类方法的特征（运行时调用
+        // 子类的move方法）。这是运行时多态
+        Animal an = new Cat();
+        an.move();// 猫在跑……
+        Animal an1 = new Bird();
+        an1.move();// 鸟儿在飞翔……
+
+        // 4.2 向下转型调用子类的特有方法；an1对象能否调用子类Bird独有的特殊方法sing()呢？
+        // an1.sing();// 报错：无法解析 'Animal' 中的方法 'sing'
+        // Bird an2 = (Bird) an1;
+        // an2.sing();// 鸟儿在唱歌……
+        /*
+         *
+         * @4.3 但是向下转型可能类型转换异常（ClassCastException）或空指针异常(NullPointerException)
+         * 解决异常：
+         * 使用instanceOf判断，instanceOf【可以动态判断运行时对象所指向的类型】，注释掉上面向下转型的代码，优化代码：
+         *
+         *
+         * */
+        // if语句中布尔值为true，动态判断，运行时an1引用（实例对象）指向了java堆内存中的一个Bird
+        // an1变量保存的地址指向了堆中的这个对象
+        if (an1 instanceof Bird) {// 避免抛出类型转换异常，代码更严谨
+            Bird an2 = (Bird) an1;
+            an2.sing();// 鸟儿在唱歌……
+        }
+        // 4.4 更进一步，Cat类中有特有方法，catchMouse(),Bird类中有特有方法sing();我们不知道传入的Cat还是Bird实例对象？
+        // 实现如果传入的是Cat实例对象，则调用catchMouse()方法；如果传入的是Bird实例对象，者调用sing()方法；解决 ：在TestWhichAnimal
+        // 类中定义一个test方法
+        TestWhichAnimal twa = new TestWhichAnimal();
+        twa.test(new Bird());
+        twa.test(new Cat());
     }
 
+}
+
+class TestWhichAnimal {
+    public void test(Animal a) {
+        if (a instanceof Bird) {
+            ((Bird) a).sing();
+        } else if (a instanceof Cat) {
+            ((Cat) a).catchMouse();
+        }
+    }
 }
 
 class MyDate {
@@ -38,6 +81,7 @@ class MyDate {
     // 构造方法
     public MyDate() {
         // 在构造函数的第一行，使用this关键字，调用有三个参数的构造函数
+        // 参考文档：https://blog.51cto.com/shylx123/540102
         this(1970, 1, 1);
     }
 
@@ -93,6 +137,33 @@ class Student {
     }
 }
 
+// 向上转型和向下转型
+class Animal {
+    public void move() {
+        System.out.println("动物在移动……");
+    }
+}
+
+class Cat extends Animal {
+    public void move() {
+        System.out.println("猫在跑……");
+    }
+
+    public void catchMouse() {
+        System.out.println("猫抓老鼠……");
+    }
+}
+
+class Bird extends Animal {
+    public void move() {
+        System.out.println("鸟儿在飞翔……");
+    }
+
+    // 子类型对象特有方法sing
+    public void sing() {
+        System.out.println("鸟儿在唱歌……");
+    }
+}
 /*
  *
  * @ Java多态的表现形式：编译时多态 重载 和运行时多态 覆盖
@@ -133,6 +204,17 @@ class Student {
  * toString()没有重写时，输出的结果是：类名+@+一个16进制的哈希码
  *
  * 3.2 Object是任何类的基类，因此在创建的任何一个类中书写：public String toString()都是覆盖
+ *
+ * 四、多态
+ * 向上转型和向下转型
+ * 向上转型 自动转换
+ * 向下转型 强制转换
+ * 4.1 通常不说，自动转换和强制转换；转换是基本类型的概念，在引用类型中，只说向上转型和向下转型
+ * 向下转型的使用场合：
+ * 4.2 当需要访问子类的特殊方法时，需要使用向下转型
+ * 4.3 向下转型会出现异常
+ * java.lang.ClassCastException 类型转换异常
+ * java.lang.NullPointerException 空指针异常
  *
  *
  * */
