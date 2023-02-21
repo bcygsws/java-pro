@@ -59,6 +59,36 @@ public class OverrideTest {
         TestWhichAnimal twa = new TestWhichAnimal();
         twa.test(new Bird());
         twa.test(new Cat());
+        // 4.5 Java的多态的好处
+        /*----优化前----*/
+        // Master mt = new Master();
+        // Dog dg = new Dog();
+        // Chicken ck = new Chicken();
+        // // 调用Master类的实例方法
+        // mt.feed(dg);
+        // mt.feed(ck);
+        /*
+         * 上述代码中可以优化的地方
+         * 1.为了应对feed中传入的不同实例对象，Dog实例或者Chicken实例；需要在Master中重载feed()方法，写了两个feed()方法，以应对
+         * 不同的传入对象
+         *
+         * 2.优化思路：
+         * 2.1 Dog和Chicken说到底都是动物，让他们共同继承自动物类Animal
+         * 2.2 只需要在Master类中定义一个feed方法，feed方法的参数为(Animal an)
+         * 2.3 mt.feed(new Dog())和mt.feed(new Chicken()); Dog和Chicken的实例 向上转型 ，他们都是Animal类型
+         * 2.4 利用多态的特性：子类的实例赋值给父类对象时，子类实例方法运行时，表现出子类自己的行为（Dog和Chicken中的eat方法都覆盖了
+         * 父类Animal中的eat方法）
+         *
+         *
+         *
+         * */
+
+        /*----优化后----*/
+        Master mt = new Master();
+        // 调用Master实例类的feed方法
+        mt.feed(new Dog());// 狗爱啃骨头……
+        mt.feed(new Chicken());// 鸡爱吃小米……
+
     }
 
 }
@@ -165,6 +195,7 @@ class Bird extends Animal {
         System.out.println("鸟儿在唱歌……");
     }
 }
+
 /*
  *
  * @ Java多态的表现形式：编译时多态 重载 和运行时多态 覆盖
@@ -222,11 +253,62 @@ class Bird extends Animal {
  * 扩展打开，修改关闭：可以添加代码，尽可能少的修改代码
  *
  * */
+/*--------优化前--------*/
 // 主人可以喂狗、也可以喂鸡
 // 常规思路：定义狗和鸡的抽象类，然后，在OverideTest中执行
-class Dog{
-
+// class Dog {
+//     public void eat() {
+//         System.out.println("狗爱啃骨头……");
+//     }
+// }
+//
+// class Chicken {
+//     public void eat() {
+//         System.out.println("鸡爱吃小米……");
+//     }
+// }
+//
+// // 主人能喂养狗和小鸡
+// class Master {
+//     public void feed(Dog dog) {
+//         dog.eat();
+//     }
+//
+//     public void feed(Chicken ckn) {
+//         ckn.eat();
+//     }
+// }
+/*--------优化后--------*/
+class MyAnimal {
+    public void eat() {
+        // 向上转型中多态特性，让当前基类中的eat方法被覆盖
+        System.out.println("动物在移动");
+    }
 }
-class Chicken{
+
+class Dog extends MyAnimal {
+    public void eat() {
+        System.out.println("狗爱啃骨头……");
+    }
+}
+
+class Chicken extends MyAnimal {
+    public void eat() {
+        System.out.println("鸡爱吃小米……");
+    }
+}
+
+// 主人能喂养狗和小鸡
+class Master {
+    // 只暴露了接口MyAnimal,不需要关注传入的是Dog实例还是Chicken实例了
+    /*
+     * 1.要面向对象编程，而不要面向过程;类的抽象，增加代码的可扩展性
+     * 2.试想：如果事后，还要添加一个Pig类，Pig类中也有eat方法；此时，不需要改动父类Animal的任何一句代码了，直接添加Pig类，并定义其中
+     * 的eat方法即可，这就是软件编程的 OCP（开闭原则）
+     *
+     * */
+    public void feed(MyAnimal an) {
+        an.eat();
+    }
 
 }
