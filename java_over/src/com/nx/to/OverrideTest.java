@@ -82,6 +82,7 @@ class MyDate {
     public MyDate() {
         // 在构造函数的第一行，使用this关键字，调用有三个参数的构造函数
         // 参考文档：https://blog.51cto.com/shylx123/540102
+        // 通过this([arg1[,arg2]])个数参数来确定所调用的其他构造函数的重载函数
         this(1970, 1, 1);
     }
 
@@ -216,5 +217,16 @@ class Bird extends Animal {
  * java.lang.ClassCastException 类型转换异常
  * java.lang.NullPointerException 空指针异常
  *
+ * 4.4 软件开发的七大原则：
+ * 有一条，开闭原则，OCP
+ * 扩展打开，修改关闭：可以添加代码，尽可能少的修改代码
  *
  * */
+// 主人可以喂狗、也可以喂鸡
+// 常规思路：定义狗和鸡的抽象类，然后，在OverideTest中执行
+class Dog{
+
+}
+class Chicken{
+
+}
