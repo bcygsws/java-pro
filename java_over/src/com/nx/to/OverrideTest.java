@@ -88,6 +88,11 @@ public class OverrideTest {
         // 调用Master实例类的feed方法
         mt.feed(new Dog());// 狗爱啃骨头……
         mt.feed(new Chicken());// 鸡爱吃小米……
+        // 乐手演奏钢琴、二胡、小提琴
+        Musician pl = new Musician();
+        pl.play(new Piano());// 钢琴声音
+        pl.play(new Erhu());// 二胡声音
+        pl.play(new Violin());// 小提琴声音
 
     }
 
@@ -252,6 +257,16 @@ class Bird extends Animal {
  * 有一条，开闭原则，OCP
  * 扩展打开，修改关闭：可以添加代码，尽可能少的修改代码
  *
+ * 五、遗留问题；静态方法和私有方法不能覆盖
+ * 5.1 私有方法不能覆盖
+ * 5.2 静态方法不能覆盖（因为覆盖通常和多态联系起来）
+ * 上述，向play方法传入参数
+ * pl.play(new Piano())
+ * pl.play(new Erhu())
+ * pl.play(new Violin())
+ * 传入的参数都赋值给了Instrument ins
+ * ins.sing();运行时调用的是自己sing()方法，这就是【多态机制】的好处
+ *
  * */
 /*--------优化前--------*/
 // 主人可以喂狗、也可以喂鸡
@@ -311,4 +326,42 @@ class Master {
         an.eat();
     }
 
+}
+
+// 多态的案例
+// 乐器类Instrument
+// 钢琴类Piano
+// 小提琴类Violin
+// 二胡类Erhu
+class Instrument {
+    public void sing() {
+        System.out.println("发出乐器声");
+    }
+}
+
+class Piano extends Instrument {
+    public void sing() {
+        System.out.println("钢琴声音");
+    }
+}
+
+class Erhu extends Instrument {
+    public void sing() {
+        System.out.println("二胡声音");
+    }
+}
+
+class Violin extends Instrument {
+    public void sing() {
+        System.out.println("小提琴声音");
+    }
+}
+
+// 乐手玩家类
+// ctrl+f查找，ctrl+h替换
+class Musician {
+    // Pleyer类调用play方法，play方法中向上转型，运行时，调用的是子类的sing方法
+    public void play(Instrument ins) {
+        ins.sing();
+    }
 }
