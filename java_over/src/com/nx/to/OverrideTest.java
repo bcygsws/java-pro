@@ -88,12 +88,42 @@ public class OverrideTest {
         // 调用Master实例类的feed方法
         mt.feed(new Dog());// 狗爱啃骨头……
         mt.feed(new Chicken());// 鸡爱吃小米……
+
         // 乐手演奏钢琴、二胡、小提琴
         Musician pl = new Musician();
         pl.play(new Piano());// 钢琴声音
         pl.play(new Erhu());// 二胡声音
         pl.play(new Violin());// 小提琴声音
 
+        // 静态方法不提覆盖
+        Fish fish = new Carp();
+        fish.eat();// 鱼吃食
+        // fish实例调用的还是父类的eat方法，静态方法需要 类名.静态方法名 来调用；
+        // 上述，fish.eat()方法等价于Fish.eat();
+
+        // 私有方法不能覆盖
+        Human hm = new Man();
+        // hm.sleep();// 'sleep()' 在 'com.nx.to.Human' 中具有 private 访问权限
+        /*
+         * sleep私有方法，是在Human中定义的，修饰符为private
+         *
+         * private定义的方法只能在Human类中使用；
+         * 父类中的私有成员变量，可以使用getter/setter来调用
+         *
+         *
+         * */
+        // 六、覆盖方法中的返回值类型要求：相同或范围更小
+        // 6.1 普通类型，如需实现覆盖，被覆盖方法和覆盖方法的返回值类型必须相同
+        // 6.2 引用类型，实现覆盖，被覆盖方法的返回值类型和覆盖方法的返回值类型可以相同；派生类中的返回值类型也可以范围更小
+        ObjFat obfat = new ObjSon();
+        // 如果eat调用的是子类的eat方法，则实现了
+        /*
+         * 打印结果显示，向上转型的ObjSon的eat方法被调用了，确实实现了覆盖
+         * 这也就验证了，对于覆盖方法，如果是引用类型的返回值；派生类中的返回值类型可以相同，也可以范围更小（比如：派生类中的返回值
+         * 类型是Girl，而基类中的被覆盖方法eat的返回值类型是Women,Girl是Women的子类）
+         *
+         * */
+        obfat.eat();// 我是子类Girl中的eat方法
     }
 
 }
@@ -267,6 +297,12 @@ class Bird extends Animal {
  * 传入的参数都赋值给了Instrument ins
  * ins.sing();运行时调用的是自己sing()方法，这就是【多态机制】的好处
  *
+ * 六、覆盖的返回值类型
+ * 基本类型 返回值类型必须相同
+ * 引用类型 被覆盖方法返回值类型比基类中的覆盖方法返回值类型范围小（或是其子类）
+ *
+ *
+ *
  * */
 /*--------优化前--------*/
 // 主人可以喂狗、也可以喂鸡
@@ -363,5 +399,83 @@ class Musician {
     // Pleyer类调用play方法，play方法中向上转型，运行时，调用的是子类的sing方法
     public void play(Instrument ins) {
         ins.sing();
+    }
+}
+
+// 静态方法不提覆盖
+class Fish {
+    public static void eat() {
+        System.out.println("鱼吃食");
+    }
+}
+
+// 子类鲤鱼类 Carp
+class Carp extends Fish {
+    // 尝试对静态方法进行覆盖
+    public static void eat() {
+        System.out.println("鲤鱼吃食");
+    }
+}
+
+// 私有方法不能覆盖
+// 定义人类父类
+class Human {
+    private void sleep() {
+        System.out.println("人要睡觉");
+    }
+}
+
+class Man extends Human {
+    // 尝试对私有方法sleep进行覆盖
+    public void sleep() {
+        System.out.println("男人要睡觉");
+    }
+
+}
+
+// 六、覆盖的返回值类型：基本类型和引用类型
+// 6.1 基本类型的返回值类型要实现覆盖；父类与子类的返回值类型必须相同
+class Women {
+
+    public double sum(int x, int y) {
+        return x + y;
+    }
+
+    // public long sum(int x, int y) {
+    //     return x + y;
+    // }
+
+}
+
+class Girl extends Women {
+    // 基本类型，返回值相同；覆盖的是父类返回值为double的sum方法
+    public double sum(int x, int y) {
+        return x + y;
+    }
+
+    // public int sum(int x, int y) {
+    //     return x + y;
+    // }
+
+}
+
+// 6.2 引用类型的返回值类型，要实现覆盖；父类和子类的中的返回值类型可以相同，也可以子类覆盖方法的返回值类型是父类中返回值的子类
+class ObjFat {
+    public Women eat() {
+        System.out.println("我是父类Women中的eat方法");
+        return null;
+    }
+}
+
+class ObjSon extends ObjFat {
+    // 1.实现了覆盖：引用类型中，被覆盖方法和子类中的覆盖方法返回值类型一致，可以实现覆盖
+    // public Women eat() {
+    //     return null;
+    // }
+    // 2.实现了覆盖：引用类型中，派生类中的覆盖方法的返回值类型是基类中的被覆盖方法的返回值类型的子类；可以实现覆盖
+    // 在入口方法中测试
+    public Girl eat() {
+        System.out.println("我是子类Girl中的eat方法");
+        return null;
     }
 }
