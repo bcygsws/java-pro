@@ -79,8 +79,6 @@ public class OverrideTest {
          * 2.4 利用多态的特性：子类的实例赋值给父类对象时，子类实例方法运行时，表现出子类自己的行为（Dog和Chicken中的eat方法都覆盖了
          * 父类Animal中的eat方法）
          *
-         *
-         *
          * */
 
         /*----优化后----*/
