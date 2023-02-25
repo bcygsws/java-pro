@@ -1,23 +1,18 @@
 package com.inter.ts;
 
-/**
- * java-interface
- *
- * @author baochengyi
- * @date 2023/2/25 2:32
- * @description
- */
 interface IShape {
     public static final int a = 10;
-    int b = 15;
+    // 接口中变量，默认是public static final修饰的；成员方法默认是public abstract修饰的
+    int b = 15;// 编译时，会添加默认修饰符；方法也是一样，会为没实现的方法添加修饰符;既然是final常量，声明后要立即赋初值
 
     // 3.接口中的静态方法【不能】重写
     public static void sleep() {
         System.out.println("接口中的静态方法！");
     }
 
-    // 1.接口中的成员方法默认修饰时public abstract，哪怕不写public abstract关键字；在接口实现类中，抽象方法【必须】重写
-    public abstract void draw();
+    // 1.接口中的成员方法默认修饰必须有abstract，哪怕不写abstract关键字，编译时也会自动添加abstract修饰；
+    // 在接口实现类中，抽象方法【必须】重写
+    abstract void draw();
 
     // 2.jdk1.8后成员方法可以在接口中写实现，但是必须有default修饰（这是默认方法），默认方法在接口实现类中【可以不】重写
     default public void eat() {
@@ -25,6 +20,36 @@ interface IShape {
     }
 
 
+}
+
+/**
+ * java-interface
+ *
+ * @author baochengyi
+ * @date 2023/2/25 2:32
+ * @description
+ */
+// 抽象类中可以像普通类一样，定义自己的普通成员变量和成员方法，成员方法可以实现；
+abstract class ChouXiang {
+    // 1.普通成员
+    public int a;
+
+    // 抽象方法：public abstract修饰，且没有方法体，识别它是抽象方法see,继承子类必须实现see方法，否则继承的子类
+    // 仍然是抽象方法
+    public abstract void see();
+
+    // 2.普通成员变量
+    public void func() {
+        System.out.println("抽象类中可以定义普通的成员变量和成员方法");
+    }
+}
+
+// 抽象类是为了继承
+class Son extends ChouXiang {
+    // 要重写see方法，如果不在当前子类中重写see方法，那么Son类仍然是抽象类
+    public void see() {
+        System.out.println("抽象类子类的实现方法");
+    }
 }
 
 public class A implements IShape {
@@ -74,7 +99,27 @@ class StringTable {
  * 抽象类和接口
  * 参考文档：
  * https://blog.csdn.net/qq_62712350/article/details/126319408
+ * 一、抽象类
+ * 1.1 抽象类用abstract修饰，抽象方法也用abstract修饰；抽象类可以有自己的普通成员
+ * 1.2 抽象类中可以声明抽象方法，但是不能实现（抽象类中的普通成员可以实现）
+ * 1.3 抽象方法不能使用private修饰符，为了遵守重写的规则（private方法不能重写）
+ * 1.4 抽象类不能实例化
+ * 1.5 抽象类可以有构造方法，为了方便子类调用抽象类的成员
+ * 1.6 抽象类是为了继承，抽象类中定义的抽象方法，必须在抽象类子类中重写，否则该子类还是抽象类
+ * 1.7 如果一个抽象类A继承另一个抽象类B,抽象类B中抽象方法可以不重写；但是如果有其他类继承抽象类A,
+ * 那么抽象类B中的抽象方法还必须被重写
  *
+ *
+ * 二、接口
+ * 2.1 接口用interface修饰，接口实际上一种引用类型
+ * 2.2 接口中变量默认是public static final，编译接口中变量时，会主动加上默认修饰符。因为它是final常量，声明时必须为
+ * 成员变量赋初值（抽象类中普通成员则不必）
+ * 2.3 抽象方法必须用abstract修饰，不能用final、static、native和synchronized修饰；即使不写abstract关键字，也会默认
+ * 添加abstract
+ * 2.4 接口不能实例化（和抽象类一样）
+ * 2.5 抽象方法必须被实现，抽象类中的静态方法不能被实现；抽象类中的普通成员方法,在接口实现类中肯定不能实现（static不谈重写）;
+ * 但是在jdk1.8以后，普通成员方法可以实现了，但是必须为它加上default修饰，同时默认方法可以不在接口实现类中重写
+ * 2.6 接口中不能有构造方法，但是接口可以实现implements其他接口
  *
  *
  * */
