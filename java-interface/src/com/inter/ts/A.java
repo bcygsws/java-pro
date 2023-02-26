@@ -22,6 +22,15 @@ interface IShape {
 
 }
 
+// 实现多个接口达到“多重继承”的目的
+interface C {
+    void sleep();
+}
+
+interface D {
+    void play();
+}
+
 /**
  * java-interface
  *
@@ -95,6 +104,18 @@ class StringTable {
     }
 }
 
+class E implements C, D {
+    @Override
+    public void sleep() {
+        System.out.println("他睡觉了");
+    }
+
+    @Override
+    public void play() {
+        System.out.println("他在玩");
+    }
+}
+
 /*
  * 抽象类和接口
  * 参考文档：
@@ -120,6 +141,7 @@ class StringTable {
  * 2.5 抽象方法必须被实现，抽象类中的静态方法不能被实现；抽象类中的普通成员方法,在接口实现类中肯定不能实现（static不谈重写）;
  * 但是在jdk1.8以后，普通成员方法可以实现了，但是必须为它加上default修饰，同时默认方法可以不在接口实现类中重写
  * 2.6 接口中不能有构造方法，但是接口可以实现implements其他接口
+ * 2.7 一个类只能继承自一个父类，但可以实现多个接口，格式：implements C,D
  *
  *
  * */
