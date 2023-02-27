@@ -31,6 +31,19 @@ interface D {
     void play();
 }
 
+// 接口实现多继承和多态简单案例
+interface IRun {
+    void run();
+}
+
+interface ISwimming {
+    void swimming();
+}
+
+interface IFly {
+    void fly();
+}
+
 /**
  * java-interface
  *
@@ -116,6 +129,69 @@ class E implements C, D {
     }
 }
 
+// 实现多个接口和继承
+class Animal {
+    public String name;
+    public int age;
+
+    public Animal(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
+
+class Dog extends Animal implements IRun, ISwimming {
+    // 构造函数
+    public Dog(String name, int age) {
+        // 父类是有参构造函数，必须在当前子类的构造函数的第一行使用super关键字调用
+        super(name, age);
+    }
+
+    @Override
+    public void run() {
+        // 直接使用父类中定义的成员变量name和age
+        System.out.println(age + "岁的" + name + "在跑");
+    }
+
+    @Override
+    public void swimming() {
+        System.out.println(age + "岁的" + name + "在游泳");
+
+    }
+}
+
+class Duck extends Animal implements IRun, ISwimming, IFly {
+    public Duck(String name, int age) {
+        super(name, age);
+    }
+
+    @Override
+    public void run() {
+        System.out.println(age + "岁的" + name + "在跑");
+
+    }
+
+    @Override
+    public void swimming() {
+        System.out.println(age + "岁的" + name + "在游泳");
+
+    }
+
+    @Override
+    public void fly() {
+        System.out.println(age + "岁的" + name + "会飞");
+
+    }
+}
+
+// 机器人不是动物，不是Animal的子类，仍然可以实现多态
+class Robot implements IRun {
+    @Override
+    public void run() {
+        System.out.println("机器人也会跑");
+    }
+}
+
 /*
  * 抽象类和接口
  * 参考文档：
@@ -142,6 +218,16 @@ class E implements C, D {
  * 但是在jdk1.8以后，普通成员方法可以实现了，但是必须为它加上default修饰，同时默认方法可以不在接口实现类中重写
  * 2.6 接口中不能有构造方法，但是接口可以实现implements其他接口
  * 2.7 一个类只能继承自一个父类，但可以实现多个接口，格式：implements C,D
+ * Long Term Support=LTS 长期支持版本
+ *
+ * 三、抽象类和接口的区别
+ * 1.抽象类可以包含普通成员，接口中不可以包含普通成员
+ * 2.抽象类用来继承，使用extends由其子类继承；接口是用来实现的，使用implements关键字
+ * 3.抽象类可以实现一个或多个接口，但是接口不能继承抽象类；接口可以使用extends关键字继承一个或多个父类接口
+ * 4.一个子类只能继承一个抽象类，一个子类可以实现多个接口
+ *
+ * 四、Object类
+ *
  *
  *
  * */
@@ -151,6 +237,16 @@ class Test {
         StringTable st = new StringTable();
         st.chooseStr(new A());
         st.chooseStr(new B());
+        // 静态成员中只能调用静态成员，因此test修饰成static
+        test(new Dog("小花狗", 3));
+        test(new Duck("可爱鸭", 2));
+        test(new Robot());
 
+    }
+
+    // 在测试类中为接口多重继承，定义展示多态特性的函数
+    public static void test(IRun irun) {
+        // 调用run方法
+        irun.run();
     }
 }
