@@ -1,5 +1,7 @@
 package com.inter.ts;
 
+import java.util.Objects;
+
 interface IShape {
     public static final int a = 10;
     // 接口中变量，默认是public static final修饰的；成员方法默认是public abstract修饰的
@@ -260,6 +262,43 @@ class Person {
         this.name = name;
         this.age = age;
     }
+    /*
+     *
+     * 重写Object的equals方法public boolean equals(Object obj){
+     *   // 方法体
+     * }
+     *
+     * 重写内容：
+     * 1. obj==null时，return false
+     * 2. this==obj时，return true
+     * 3. if(!obj instanceof Person){
+     *   return false;
+     * }
+     *
+     * 4.然后，obj是Person的一个实例时，如果实例对象的值相等，就返回true。否则返回false
+     * this.name.equals(obj.name)&&this.age==obj.age 等于true,返回true;否则返回false
+     *
+     * */
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null) return false;
+        if (this == o) return true;
+        // 判断o引用是否为java堆内存中的一个Person实例
+        if (!(o instanceof Person)) return false;
+        // 执行到此处，就是引用o
+        Person person = (Person) o;
+        if (this.age == person.age && this.name.equals(person.name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, age);
+    }
 }
 // 测试类
 
@@ -275,13 +314,35 @@ class Test {
         Person p1 = new Person("小红", 16);
         Person p2 = new Person("小红", 16);
         // 基本数据类型age使用==时
-        System.out.println(p1.age == p2.age);// true
+        int a = 10;
+        int b = 10;
+        System.out.println(a == b);// true
         // 引用类型比较使用==和equals方法都是false
         /*
-        *
-        * 对于引用类型的比较
-        * ==
-        * */
+         *
+         * 一、对于基本类型
+         *  == 比较的是变量的值，a和b的值相同
+         *
+         * 二、对于引用类型的比较
+         * 1. == 比较的是两个对象的地址
+         * 2. p1.equals(p2) 打印false,其实equals按照p1和p2的地址来比较的，p1和 p2是创建的两个不同的对象，它们栈存放不同的地址，它
+         * 们的堆中存放对象的值
+         *
+         * 默认equals
+         * 输出结果是：
+         * true
+         * false
+         * false
+         *
+         * 在Person中重写equals方法后
+         * 输出结果是：
+         * true
+         * false
+         * true
+         *
+         * 重写后，将比较对象的地址，改成比较对象堆里面的键值对了，所以p1.equals(p2)结果从false变成了true
+         *
+         * */
         System.out.println(p1 == p2);// false
         System.out.println(p1.equals(p2));// false
 
