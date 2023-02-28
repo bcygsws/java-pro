@@ -76,9 +76,16 @@ interface IFly {
  * 3.1 抽象类可以包含普通成员，接口中不可以包含普通成员
  * 3.2 抽象类用来继承，使用extends由其子类继承；接口是用来实现的，使用implements关键字
  * 3.3 抽象类可以实现一个或多个接口，但是接口不能继承抽象类；接口可以使用extends关键字继承一个或多个父类接口
+ * 参考文档：https://jingyan.baidu.com/article/359911f5aa0e4116ff03063e.html
  * 3.4 一个子类只能继承一个抽象类，一个子类可以实现多个接口
  *
  * 四、Object类
+ *  4.1 Object是所有其他类的父类，可以理解为定义任何类都省略了extends Object这些代码
+ *  4.2 Object类中有一些特殊方法：重写toString和重写equals方法
+ *  关于toString()方法的重写，前已详细讨论过
+ *  实例：演示重写equals方法
+ *
+ *
  *
  *
  *
@@ -243,6 +250,17 @@ class Robot implements IRun {
         System.out.println("机器人也会跑");
     }
 }
+
+// 体会equals用法，对比==，观察两者之间的去呗
+class Person {
+    public String name;
+    int age;
+
+    public Person(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+}
 // 测试类
 
 class Test {
@@ -254,6 +272,18 @@ class Test {
         test(new Dog("小花狗", 3));
         test(new Duck("可爱鸭", 2));
         test(new Robot());
+        Person p1 = new Person("小红", 16);
+        Person p2 = new Person("小红", 16);
+        // 基本数据类型age使用==时
+        System.out.println(p1.age == p2.age);// true
+        // 引用类型比较使用==和equals方法都是false
+        /*
+        *
+        * 对于引用类型的比较
+        * ==
+        * */
+        System.out.println(p1 == p2);// false
+        System.out.println(p1.equals(p2));// false
 
     }
 
