@@ -282,7 +282,7 @@ class Person {
 
     @Override
     public boolean equals(Object o) {
-        if (o == null) return false;
+        if (null == o) return false;
         if (this == o) return true;
         // 判断o引用是否为java堆内存中的一个Person实例
         if (!(o instanceof Person)) return false;
@@ -341,10 +341,10 @@ class Test {
          * true
          *
          * 重写后，将比较对象的地址，改成比较对象堆里面的键值对了，所以p1.equals(p2)结果从false变成了true
-         *
          * */
         System.out.println(p1 == p2);// false
         System.out.println(p1.equals(p2));// false
+        // System.out.println(p1.equals(null));
 
     }
 
