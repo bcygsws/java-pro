@@ -282,11 +282,22 @@ class Person {
 
     @Override
     public boolean equals(Object o) {
+        // 打印this,this是Person类的实例
+        // 在java类中创建的每个实例，它们都是不同的，源于创建时，申请了不同的栈地址来存储它们（即使它们堆里的键值对完全相同）
+        System.out.println(this);// com.inter.ts.Person@168edbe
         if (null == o) return false;
         if (this == o) return true;
         // 判断o引用是否为java堆内存中的一个Person实例
         if (!(o instanceof Person)) return false;
         // 执行到此处，就是引用o
+        /*
+         *
+         * 此处，为啥要将传入的o(默认的Object类型)向下转型？
+         * 1.因为多态仅仅限于成员方法，成员变量是无法实现多态的
+         * 2.为了访问Person类自己传入的name、age，必须将传入的o(Object类型)向下转型，成为person自己的实例对象；person实例对象调
+         * 用自己的name和age值
+         *
+         * */
         Person person = (Person) o;
         if (this.age == person.age && this.name.equals(person.name)) {
             return true;
