@@ -291,7 +291,6 @@ class Person {
         if (!(o instanceof Person)) return false;
         // 执行到此处，就是引用o
         /*
-         *
          * 此处，为啥要将传入的o(默认的Object类型)向下转型？
          * 1.因为多态仅仅限于成员方法，成员变量是无法实现多态的
          * 2.为了访问Person类自己传入的name、age，必须将传入的o(Object类型)向下转型，成为person自己的实例对象；person实例对象调
