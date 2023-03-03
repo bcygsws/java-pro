@@ -66,7 +66,7 @@ interface IFly {
  * 2.2 接口中变量默认是public static final，编译接口中变量时，会主动加上默认修饰符。因为它是final常量，声明时必须为
  * 成员变量赋初值（抽象类中普通成员则不必）
  * 2.3 抽象方法必须用abstract修饰，不能用final、static、native和synchronized修饰；即使不写abstract关键字，也会默认
- * 添加abstract
+ * 添加public abstract
  * 2.4 接口不能实例化（和抽象类一样）
  * 2.5 抽象方法必须被实现，抽象类中的静态方法不能被实现；抽象类中的普通成员方法,在接口实现类中肯定不能实现（static不谈重写）;
  * 但是在jdk1.8以后，普通成员方法可以实现了，但是必须为它加上default修饰，同时默认方法可以不在接口实现类中重写
