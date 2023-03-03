@@ -19,6 +19,13 @@ public class OverrideTest {
         System.out.println(t1);// 1970年1月1日
         System.out.println(t1.toString());// 1970年1月1日
 
+        // 封装的思想（encapsulation）
+        // MyDate类中的year,month,day都是私有变量，在其他类中无法直接访问，可以使用getter/setter形式访问
+        t1.setYear(2023);
+        t1.setMonth(3);
+        t1.setDay(3);
+        // 借用setter方法修改私有成员的值后，打印t1
+        System.out.println(t1);// 此时打印结果：2023年3月3日
         Student stu = new Student(1212, "张瑶");
         // a.在Student中重写toString()方法前
         // System.out.println(stu);// com.nx.to.Student@5315b42e
@@ -243,7 +250,7 @@ class Bird extends Animal {
  * 覆盖是指派生类函数覆盖基类函数。覆盖是对一个方法进行重写，以达到一定的作用
  *
  * 覆盖满足的判断：
- * a.父类和子类有继承关系
+ * a.父类和子类有继承关系（连继承都不能的方法，肯定无法覆盖，比如构造函数不能继承，自然不能覆盖）
  * b.两相同：参数列表和方法名
  * c.一大：访问权限
  * d.一小：返回值类型
