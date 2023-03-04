@@ -132,10 +132,11 @@ public class OverrideTest {
         /**
          *
          * @ 命令行传参步骤
-         * 1.首先在本项目根目录下编译代码，将代码编译成字节码文件
-         * 路径：.../java_over/src/com/nx/to>  javac OverrideTest.java
+         * 1.首先在本项目根目录下编译代码，将代码编译成字节码文件。（在D盘中自己创建了java_test项目）
+         * 路径：D:\java_test\src\com\nx\to>javac Test.java
          *
-         * 2.在该项目的src路径下，java com.nx.to.OverrideTest this is params
+         * 2.在该项目(适用于自己创建的java文件（javac会默认将生成的class字节码文件和.java文件放在同一路径中），
+         * 使用javac编译，后再使用java执行)的src路径下，D:\java_test\src\com\nx\to>java Test Hello World
          * 注意：如果是IDEA创建的应用程序项目，则生成的class字节码文件默认是放在项目的out目录下的
          * 此时命令更改为：
          * D:\java-pro\java_over\out\production\java_over>java com.nx.to.OverrideTest This is params
