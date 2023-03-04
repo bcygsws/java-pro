@@ -127,6 +127,27 @@ public class OverrideTest {
          *
          * */
         obfat.eat();// 我是子类Girl中的eat方法
+
+        // 命令行传参数，为main函数传参，并打印
+        /**
+         *
+         * @ 命令行传参步骤
+         * 1.首先在本项目根目录下编译代码，将代码编译成字节码文件
+         * 路径：.../java_over/src/com/nx/to>  javac OverrideTest.java
+         *
+         * 2.在该项目的src路径下，java com.nx.to.OverrideTest this is params
+         * 注意：如果是IDEA创建的应用程序项目，则生成的class字节码文件默认是放在项目的out目录下的
+         * 此时命令更改为：
+         * D:\java-pro\java_over\out\production\java_over>java com.nx.to.OverrideTest This is params
+         * 传入的参数是：This is params
+         *
+         * 3.观察cmd窗口打印出来的传给main函数的参数
+         *
+         * */
+        for (int i = 0; i < args.length; i++) {
+            System.out.println("第" + i + "个参数是：" + args[i]);
+        }
+
     }
 
 }
@@ -238,12 +259,14 @@ class Bird extends Animal {
  *
  * @ Java多态的表现形式：编译时多态 重载 和运行时多态 覆盖
  * 参考文档：https://blog.csdn.net/m0_61933976/article/details/125070919
+ * 参考文档1：https://blog.csdn.net/weixin_66262328/article/details/124222927
  *
- * 一、重载：overload,重载是在一个；类中多态性的一种表现，它是在同一个类中定义了多个同名方法，通过定义参数的类型、个数和顺序来实现
+ * 一、重载：overload,重载是在同一个类中多态性的一种表现，它是在同一个类中定义了多个同名方法，通过定义参数的类型、个数和顺序来实现
  * 1.1 重载是通过方法的参数来区分的，包括参数的个数、类型和顺序
  * 1.2 重载不能通过方法的访问权限、返回值类型和异常类型来实现
  * 1.3 如果一个基类中的方法定义为了private，那么在派生类中对该方法不能达到重载的效果，只是定义了不同的方法（这种情形是重载失效或
  * 不能重载）
+ * 1.4 特别注意：仅仅返回值类型不同是不能构成重载；但是参数列表不同了，两个方法的返回值类型不同，也能实现重载
  * 注：private方法不能重载、覆盖、不能继承
  *
  * 二、覆盖:override或者重写 overwrite
