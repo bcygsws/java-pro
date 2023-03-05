@@ -54,7 +54,7 @@ public class OverrideTest {
          *
          *
          * */
-        // if语句中布尔值为true，动态判断，运行时an1引用（实例对象）指向了java堆内存中的一个Bird
+        // if语句中布尔值为true，运行时动态判断an1引用（实例对象）指向了java堆内存中的一个Bird
         // an1变量保存的地址指向了堆中的这个对象
         if (an1 instanceof Bird) {// 避免抛出类型转换异常，代码更严谨
             Bird an2 = (Bird) an1;
