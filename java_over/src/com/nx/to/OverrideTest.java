@@ -50,7 +50,8 @@ public class OverrideTest {
          *
          * @4.3 但是向下转型可能类型转换异常（ClassCastException）或空指针异常(NullPointerException)
          * 解决异常：
-         * 使用instanceOf判断，instanceOf【可以动态判断运行时对象所指向的类型】，注释掉上面向下转型的代码，优化代码：
+         * 使用instanceOf判断，instanceOf【可以在程序的运行阶段，动态判断运行时对象所指向的类型】，注释掉上面向下转型的代码，
+         * 优化代码：
          *
          *
          * */
