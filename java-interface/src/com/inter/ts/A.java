@@ -16,10 +16,17 @@ interface IShape {
     // 1.接口中的成员方法默认修饰必须有abstract，哪怕不写abstract关键字，编译时也会自动添加abstract修饰；
     // 在接口实现类中，抽象方法【必须】重写
     abstract void draw();
+    /*
+    *  关于接口中方法的访问权限
+    *
+    * jdk1.8之前，抽象方法默认是public修饰
+    * jdk1.8时，接口中方法可以是public也可以是default（可以有其他成员方法，jdk之前，接口中不允许有其他可以实现的方法），
+    * 默认方法在接口实现类中【可以不】重写;如果是default修饰，必须为方法添加方法体，
+    * 否则报错；在接口实现类中，默认方法可以不重写
+    *
+    *
+    * */
 
-    // jdk1.8之前，成员方法是public修饰
-    //jdk1.8时，方法可以是public也可以是default，默认方法在接口实现类中【可以不】重写;如果是default修饰，必须为方法添加方法体，
-    // 否则报错；在接口实现类中，默认方法可以不重写
 
     default void eat() {
         System.out.println("接口中的默认方法！");
@@ -104,6 +111,9 @@ interface IFly {
  * 五、抽象类和接口中的方法的访问权限
  * 参考文档：
  * https://www.cnblogs.com/tzmok/p/13736386.html
+ * java面试：
+ * https://blog.csdn.net/qq_36592718/article/details/127177889
+ *
  *
  * 抽象类中的抽象方法
  * jdk1.8以前，默认是protected
@@ -151,9 +161,15 @@ interface Inf {
 abstract class ChouXiang {
     // 1.普通成员
     public int a;
-
-    // 抽象方法：public abstract修饰，且没有方法体，识别它是抽象方法see,继承子类必须实现see方法，否则继承的子类
-    // 仍然是抽象方法
+/*
+*
+* 抽象类的抽象方法
+* 1.public abstract修饰，且没有方法体，识别它是抽象方法see,继承子类必须实现see方法，否则抽象类继承的子类仍然是抽象方法
+* 2.抽象类中抽象方法的访问权限：
+* jdk1.8之前默认是protected
+* jdk1.8时，默认是default
+*
+* */
     public abstract void see();
 
     // 2.普通成员变量
