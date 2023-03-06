@@ -28,6 +28,12 @@ public class Polymorphism {
         b.g();
         /**
          *
+         * 分析打印结果：
+         * 1.hello World！在main静态入口函数中，最先执行
+         * 2.然后，构造函数new Derived()子类无参构造函数，父类的无参构造函数调用一下，里面调用g()方法，程序运行时，仍然调用的是
+         * 子类Derived g方法，尽管这次调用是写在父类构造函数Base中的
+         * 3.接下来正是向上转型后，运行时多态的妙用，很容易分析
+         *
          * @ 打印结果：
          * hello World!
          * Derived类的g方法
