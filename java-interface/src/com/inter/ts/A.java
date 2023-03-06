@@ -2,6 +2,7 @@ package com.inter.ts;
 
 import java.util.Objects;
 
+
 interface IShape {
     public static final int a = 10;
     // 接口中变量，默认是public static final修饰的；成员方法默认是public abstract修饰的
@@ -16,8 +17,11 @@ interface IShape {
     // 在接口实现类中，抽象方法【必须】重写
     abstract void draw();
 
-    // 2.jdk1.8后成员方法可以在接口中写实现，但是必须有default修饰（这是默认方法），默认方法在接口实现类中【可以不】重写
-    default public void eat() {
+    // jdk1.8之前，成员方法是public修饰
+    //jdk1.8时，方法可以是public也可以是default，默认方法在接口实现类中【可以不】重写;如果是default修饰，必须为方法添加方法体，
+    // 否则报错；在接口实现类中，默认方法可以不重写
+
+    default void eat() {
         System.out.println("接口中的默认方法！");
     }
 
@@ -36,6 +40,12 @@ interface D {
 // 接口实现多继承和多态简单案例
 interface IRun {
     void run();
+
+    private void myRun() {
+
+    }
+
+    ;
 }
 
 interface ISwimming {
@@ -90,10 +100,31 @@ interface IFly {
  *
  *  实例：演示重写equals方法
  *
+ *
+ * 五、抽象类和接口中的方法的访问权限
+ * 参考文档：
+ * https://www.cnblogs.com/tzmok/p/13736386.html
+ *
+ * 抽象类中的抽象方法
+ * jdk1.8以前，默认是protected
+ * jdk1.8时，默认的访问权限是default
+ *
+ * 接口中的方法
+ * jdk1.8以前，接口中过的方法是public
+ * jdk1.8时，接口中的方法是public，也可以是default（默认方法,也必须在接口中写方法体，否则报错）
+ * jdk1.9后，接口中的方法也可以是private的(private方法，必须在接口中有方法体，否则报错：接口中的 private 方法应具有主体)
+ *
+ *
+ *
  * */
 // 验证3.3 抽象类可以实现多个接口，但是接口却不能继承抽象类；接口可以使用extends关键字继承一个或多个接口
 interface inter1 {
     void fun1();
+
+    // jdk1.9之后，接口中的方法，可以是private修饰的；但是，必须在接口中有方法体，否则代码提示错误
+    private void funny1() {
+
+    }
 }
 
 interface inter2 extends inter1 {
@@ -102,6 +133,11 @@ interface inter2 extends inter1 {
 
 interface inter3 extends inter1, inter2 {
     void fun3();
+}
+
+interface Inf {
+    // int x = 0;
+    int y = 4;
 }
 
 /**
@@ -309,6 +345,21 @@ class Person {
         return Objects.hash(name, age);
     }
 }
+
+class F {
+    int x = 0;
+}
+
+class G extends F implements Inf {
+    public void getX() {
+        // 代码构建时报错：java: 对x的引用不明确
+        // 来自于类F中的变量X
+        System.out.println("x的值来自于哪里？" + x);
+        // 来自于接口Inf中的变量y
+        System.out.println("y的值来自于哪里？" + y);
+    }
+}
+
 // 测试类
 
 class Test {
@@ -354,6 +405,9 @@ class Test {
         System.out.println(p1 == p2);// false
         System.out.println(p1.equals(p2));// false
         // System.out.println(p1.equals(null));
+
+        // 测试x、y是来自父类还是接口
+        (new G()).getX();
 
     }
 
