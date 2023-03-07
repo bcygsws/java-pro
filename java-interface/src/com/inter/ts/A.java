@@ -13,7 +13,8 @@ interface IShape {
         System.out.println("接口中的静态方法！");
     }
 
-    // 1.接口中的成员方法默认修饰必须有abstract，哪怕不写abstract关键字，编译时也会自动添加abstract修饰；
+    // 1.接口中的成员方法默认修饰必须有abstract，哪怕不写abstract关键字，编译时也会自动添加abstract修饰；且访问控制符是public
+    // 在IShape实现类中，尝试将重写的draw()方法访问权限更改为protected,会报错
     // 在接口实现类中，抽象方法【必须】重写
     abstract void draw();
     /*
@@ -401,8 +402,10 @@ class Test {
          *
          * 二、对于引用类型的比较
          * 1. == 比较的是两个对象的地址
-         * 2. p1.equals(p2) 打印false,其实equals按照p1和p2的地址来比较的，p1和 p2是创建的两个不同的对象，它们栈存放不同的地址，它
-         * 们的堆中存放对象的值
+         * 2. p1.equals(p2) 打印false,其实equals按照p1和p2的地址来比较的，p1和 p2是创建的两个不同的对象，它们栈存放不同的地址，
+         * 它们的堆中存放对象的值
+         * 3.== 既可以用来判断基本类型，又可以用来判断引用类型；然后，equals(Object类方法)只能用来比较引用类型的数据
+         * 
          *
          * 默认equals
          * 输出结果是：
