@@ -168,8 +168,14 @@ abstract class ChouXiang {
      * jdk1.8之前默认是protected
      * jdk1.8时，默认是default
      *
+     * 测试：默认是protected
+     * 在抽象类中的抽象方法，只给一个必须的abstract修饰，则在抽象类子类Son中重写see方法时，至少得限定为protected权限，否则
+     * 代码将报错
+     *
+     *
      * */
-    public abstract void see();
+
+    abstract void see();
 
     // 2.普通成员变量
     public void func() {
@@ -180,7 +186,8 @@ abstract class ChouXiang {
 // 抽象类是为了继承
 class Son extends ChouXiang {
     // 要重写see方法，如果不在当前子类中重写see方法，那么Son类仍然是抽象类
-    public void see() {
+    // 可以做三种处理：不写限制符、或者写protected或者写public都是可以的
+      protected void see() {
         System.out.println("抽象类子类的实现方法");
     }
 }
