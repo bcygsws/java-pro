@@ -223,7 +223,9 @@ class StringTable {
         ishape.draw();
         // 调用A和B类中的特殊方法（非接口中声明的抽象方法）
         // 本方法的参数是ishape,A类和B类都是接口IShape的实现类，需要用到向下转型；向下转型可能抛出类型转换异常（ClassCastException）
-        // 和空指针异常(NullPointerException),需要使用instanceof作分支判断
+        // 和空指针异常(NullPointerException),需要使用instanceof作分支判断；instanceof的作用：在程序运行过程中，能够动态判断引
+        // 用所指向的类型；示例：ishape指向A时，接下来对它进行向下转型，向下转型后的对象a,才能调用A类自己特有的方法
+        
         if (ishape instanceof A) {
             A a = (A) ishape;
             a.setA();
