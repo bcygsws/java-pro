@@ -16,9 +16,12 @@ interface IShape {
     // 1.接口中的成员方法默认修饰必须有abstract，哪怕不写abstract关键字，编译时也会自动添加abstract修饰；且访问控制符是public
     // 在IShape实现类中，尝试将重写的draw()方法访问权限更改为protected,会报错
     // 在接口实现类中，抽象方法【必须】重写
-    abstract void draw();
+    // abstract void draw();
+    // 系统会为它自动添加默认public abstract,因此，抽象方法可以简写成：
+    void draw();
 
     /*
+
      *  关于接口中方法的访问权限
      *
      * jdk1.8之前，抽象方法默认是public修饰
@@ -187,7 +190,7 @@ abstract class ChouXiang {
 class Son extends ChouXiang {
     // 要重写see方法，如果不在当前子类中重写see方法，那么Son类仍然是抽象类
     // 可以做三种处理：不写限制符、或者写protected或者写public都是可以的
-      protected void see() {
+    protected void see() {
         System.out.println("抽象类子类的实现方法");
     }
 }
@@ -225,7 +228,7 @@ class StringTable {
         // 本方法的参数是ishape,A类和B类都是接口IShape的实现类，需要用到向下转型；向下转型可能抛出类型转换异常（ClassCastException）
         // 和空指针异常(NullPointerException),需要使用instanceof作分支判断；instanceof的作用：在程序运行过程中，能够动态判断引
         // 用所指向的类型；示例：ishape指向A时，接下来对它进行向下转型，向下转型后的对象a,才能调用A类自己特有的方法
-        
+
         if (ishape instanceof A) {
             A a = (A) ishape;
             a.setA();
