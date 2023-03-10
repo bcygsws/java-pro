@@ -24,7 +24,9 @@ public class Application {
     }
 }
 /**
- * @ Java三大特性：封装
+ * @ Java三大特性：封装、继承、多态
+ *
+ * 一、封装
  * 参考文档：
  * https://blog.csdn.net/weixin_47556601/article/details/122521852
  *
