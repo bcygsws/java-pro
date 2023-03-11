@@ -26,12 +26,11 @@ public class Application {
 /*
  * @ Java三大特性：封装、继承、多态
  *
- *
  * 一、封装
  * 参考文档：
  * https://blog.csdn.net/weixin_47556601/article/details/122521852
  *
- * 体会封装的好处
+ * 体会封装的优点；
  * 1.提高程序的安全性，保护数据
  * 2.隐藏代码的实现细节 【setX系列中处理传入的参数的逻辑，对Application是隐藏的】
  * 3.统一接口
