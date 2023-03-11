@@ -23,8 +23,9 @@ public class Application {
         System.out.println(s.getSex());
     }
 }
-/**
+/*
  * @ Java三大特性：封装、继承、多态
+ *
  *
  * 一、封装
  * 参考文档：
