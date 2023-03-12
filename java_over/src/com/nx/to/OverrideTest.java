@@ -258,7 +258,6 @@ class Bird extends Animal {
 }
 
 /*
- *
  * @ Java多态的表现形式：编译时多态 重载 和运行时多态 覆盖
  * 参考文档：https://blog.csdn.net/m0_61933976/article/details/125070919
  * 参考文档1：https://blog.csdn.net/weixin_66262328/article/details/124222927

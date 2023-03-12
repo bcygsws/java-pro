@@ -29,6 +29,10 @@ public class Application {
  * 一、封装
  * 参考文档：
  * https://blog.csdn.net/weixin_47556601/article/details/122521852
+ * git commit提交信息后，想更改信息
+ * git知识：参考文档
+ * https://blog.csdn.net/qq_29518275/article/details/119787728
+ *
  *
  * 体会封装的优点；
  * 1.提高程序的安全性，保护数据
