@@ -86,7 +86,7 @@ public class OverrideTest {
          * 2.3 mt.feed(new Dog())和mt.feed(new Chicken()); Dog和Chicken的实例 向上转型 ，他们都是Animal类型
          * 2.4 利用多态的特性：子类的实例赋值给父类对象时，子类实例方法运行时，表现出子类自己的行为（Dog和Chicken中的eat方法都覆盖了
          * 父类Animal中的eat方法）
-         * 
+         *
          *
          * */
 
@@ -113,7 +113,6 @@ public class OverrideTest {
         // hm.sleep();// 'sleep()' 在 'com.nx.to.Human' 中具有 private 访问权限
         /*
          * sleep私有方法，是在Human中定义的，修饰符为private
-         *
          * private定义的方法只能在Human类中使用；
          * 父类中的私有成员变量，可以使用getter/setter来调用
          */
