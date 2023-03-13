@@ -129,7 +129,7 @@ public class OverrideTest {
          * */
         obfat.eat();// 我是子类Girl中的eat方法
 
-        // 命令行传参数，为main函数传参，并打印
+        // 七、命令行传参数，为main函数传参，并打印
         /**
          *
          * @ 命令行传参步骤
