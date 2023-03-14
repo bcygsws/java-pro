@@ -138,8 +138,11 @@ public class OverrideTest {
          *
          * 2.在该项目(适用于自己创建的java文件（javac会默认将生成的class字节码文件和.java文件放在同一路径中），
          * 使用javac编译，后再使用java执行)的src路径下，D:\java_test\src\com\nx\to>java Test Hello World
+         *
          * 注意：如果是IDEA创建的应用程序项目，则生成的class字节码文件默认是放在项目的out目录下的
-         * 此时命令更改为：
+         * 此时命令更改为：（IDEA工具创建的项目结构：深入到字节码文件存放文件夹与项目同名的目录，后面使用结构：包.类名 参数
+         * 来书写命令），如：java_over项目，终端路径停留在java_over，输入命令：java com.nx.to.OverrideTest This is params
+         * 
          * D:\java-pro\java_over\out\production\java_over>java com.nx.to.OverrideTest This is params
          * 传入的参数是：This is params
          *
