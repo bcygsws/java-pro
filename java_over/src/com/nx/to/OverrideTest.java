@@ -130,7 +130,7 @@ public class OverrideTest {
         obfat.eat();// 我是子类Girl中的eat方法
 
         // 七、命令行传参数，为main函数传参，并打印
-        /**
+        /*
          *
          * @ 命令行传参步骤
          * 1.首先在本项目根目录下编译代码，将代码编译成字节码文件。（在D盘中自己创建了java_test项目）
