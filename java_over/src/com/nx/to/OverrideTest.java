@@ -142,11 +142,11 @@ public class OverrideTest {
          * 注意：如果是IDEA创建的应用程序项目，则生成的class字节码文件默认是放在项目的out目录下的
          * 此时命令更改为：（IDEA工具创建的项目结构：深入到字节码文件存放文件夹与项目同名的目录，后面使用结构：包.类名 参数
          * 来书写命令），如：java_over项目，终端路径停留在java_over，输入命令：java com.nx.to.OverrideTest This is params
-         * 
+         *
          * D:\java-pro\java_over\out\production\java_over>java com.nx.to.OverrideTest This is params
          * 传入的参数是：This is params
          *
-         * 3.观察cmd窗口打印出来的传给main函数的参数
+         * 3.仔细观察cmd窗口打印出来的传给main函数的参数
          *
          * */
         for (int i = 0; i < args.length; i++) {
