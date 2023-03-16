@@ -412,14 +412,17 @@ class Master {
      * 使用多个专门的接口，而不是一个总结点，客户端不应该依赖它不需要的接口
      *
      * 5.迪米特法则
-     * Law of Demeter LoD,又叫最少知道原则
+     * Law of Demeter  (LoD),又叫最少知道原则
      *
      *
      * 6.里式替换原则
+     * Liskov substitution principle LSP
+     * 如果每一个T1类型的对象t1,都有一个T2类型的对象t2;使得T1定义的程序p,在t1换成t2时，程序p没有发生变化。那么，t2就是t1的子类型
      *
-     * 7.合成复用原则
-     * composite/aggregate reuse principle
      *
+     * 7.合成复用原则-CARP
+     * composite（adj.混合的，合成的;n.混合，复合材料、混合物）/aggregate(集成) reuse principle
+     * 尽量使用组合/聚合关系实现代码复用（has-a/contains-a），而不是使用继承实现复用
      *
      *
      *
