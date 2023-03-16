@@ -404,11 +404,21 @@ class Master {
      *
      * 3.单一职责原则
      * Simply Responsibility Principle,SRP
-     * 一个类、接口和方法只负责一项工作
+     * 一个类、接口和方法只负责一项职责
+     * 可以降低代码变更引起的风险
      *
-     * 降低代码变更引起的风险
+     * 4.接口隔离原则
+     * interface segregation principle ISP
+     * 使用多个专门的接口，而不是一个总结点，客户端不应该依赖它不需要的接口
      *
-     * 4.
+     * 5.迪米特法则
+     * Law of Demeter LoD,又叫最少知道原则
+     *
+     *
+     * 6.里式替换原则
+     *
+     * 7.合成复用原则
+     * composite/aggregate reuse principle
      *
      *
      *
