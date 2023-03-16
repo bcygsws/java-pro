@@ -9,6 +9,7 @@ package com.nx.to;
  */
 public class OverrideTest {
     public static void main(String[] args) {
+        // 注意：MyDate类中重写toString()方法后，打印的t1默认值来自，MyDate构造函数执行，调用构造函数的重载方法this(1970,1,1);
         MyDate t1 = new MyDate();
         // a.未在MyDate类中重写toString方法前，打印t1对象
         // System.out.println(t1);// com.nx.to.MyDate@3ac3fd8b
@@ -384,8 +385,38 @@ class Master {
     // 只暴露了接口MyAnimal,不需要关注传入的是Dog实例还是Chicken实例了
     /*
      * 1.要面向对象编程，而不要面向过程;类的抽象，增加代码的可扩展性
-     * 2.试想：如果事后，还要添加一个Pig类，Pig类中也有eat方法；此时，不需要改动父类Animal的任何一句代码了，直接添加Pig类，并定义其中
-     * 的eat方法即可，这就是软件编程的 OCP（开闭原则）
+     * 2.试想：如果事后，还要添加一个Pig类，Pig类中也有eat方法；此时，不需要改动父类Animal的任何一句代码了，直接添加Pig类，并定义
+     * 其中的eat方法即可，这就是软件编程的 OCP（开闭原则）
+     * 开闭原则：
+     *  开：添加代码没问题（添加即扩展代码），是为打开
+     *  闭：尽量少的修改原代码，是为关闭
+     *  拓展：
+     * 软件开发七大原则：
+     * 参考文档：https://blog.csdn.net/qq_42145271/article/details/105605973
+     * 1.开闭原则
+     * 对添加代码开放（扩展代码），对修改代码关闭（尽可能少的修改原来的代码）
+     *
+     * 2.依赖倒置原则-减少类的耦合
+     * Dependence Inversion Principle,DIP）
+     * 2.1 高层模块不应该依赖低层模块，两者都依赖抽象
+     * 2.2 抽象不应该依赖细节，细节依赖抽象
+     * 2.3 面向接口编程，而不是面向实现编程
+     *
+     * 3.单一职责原则
+     * Simply Responsibility Principle,SRP
+     * 一个类、接口和方法只负责一项工作
+     *
+     * 降低代码变更引起的风险
+     *
+     * 4.
+     *
+     *
+     *
+     *
+     *
+     *
+     *
+     *
      *
      * */
     public void feed(MyAnimal an) {
