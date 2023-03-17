@@ -393,7 +393,8 @@ class Master {
      *  拓展：
      * 软件开发七大原则：
      * 参考文档：https://blog.csdn.net/qq_42145271/article/details/105605973
-     * 1.开闭原则
+     * 1.开闭原则 OCP
+     * open-closed principle
      * 对添加代码开放（扩展代码），对修改代码关闭（尽可能少的修改原来的代码）
      *
      * 2.依赖倒置原则-减少类的耦合
