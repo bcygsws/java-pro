@@ -436,8 +436,6 @@ class Master {
      * composite（adj.混合的，合成的;n.混合，复合材料、混合物）/aggregate(集成) reuse principle
      * 尽量使用组合/聚合关系实现代码复用（has-a/contains-a），而不是使用继承实现复用；以降低类与类之间的耦合度，一个类的变化对
      * 其他类的影响较小
-     *
-     *
      * */
     public void feed(MyAnimal an) {
         an.eat();
