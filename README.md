@@ -122,5 +122,5 @@
 
 #### 6.7 合成复用原则-CARP
 
-- composite/aggregate reuse principle
+- Composite/Aggregate reuse principle
 - 尽可能的使用组合/聚合（has-a/contains-a）的方式，实现代码复用，而不是继承的方式实现代码复用
