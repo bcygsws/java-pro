@@ -76,6 +76,10 @@
 
 - 参考文档：[体会封装](https://blog.csdn.net/weixin_47556601/article/details/122521852)
 
+#### 继承
+
+#### 多态
+
 ## IDEA创建Java项目过程
 
 - 工具栏->文件->新建项目->Java模块(其中java SDK 选择jdk11)->下一步->下一步->输入项目名称即可
