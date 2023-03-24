@@ -111,7 +111,7 @@
 - interface segregation principle
 - 使用多个单项接口，而不是一个总接口；客户端不依赖不需要的接口
 
-#### 6.5 迪米特法则LoD
+#### 6.5 迪米特法则LoD（或者LKP）
 
 - Law of Demeters
 - 一个对象要尽可能少的知道其他对象的细节，有成为最少知道原则（least knowledge principle,LKP）
