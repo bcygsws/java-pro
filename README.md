@@ -87,7 +87,7 @@
 
 ### 六、Java软件开发的七大原则-重点
 
-- [参考文档](https://blog.csdn.net/qq_42145271/article/details/105605973)
+- [Java软件开发七大原则-参考文档](https://blog.csdn.net/qq_42145271/article/details/105605973)
 
 #### 6.1 开闭原则-OCP
 
