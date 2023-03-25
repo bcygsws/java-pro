@@ -72,13 +72,13 @@
 
 ### 五、结合代码体会封装（encapsulation）、继承（inheritance）、多态（polymorphism）
 
-#### 封装
+#### 封装-encapsulation
 
 - 参考文档：[体会封装](https://blog.csdn.net/weixin_47556601/article/details/122521852)
 
-#### 继承
+#### 继承-inheritance
 
-#### 多态
+#### 多态-polymorphsim
 
 ## IDEA创建Java项目过程
 
