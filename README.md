@@ -135,3 +135,13 @@
 
 - Composite/Aggregate reuse principle
 - 尽可能的使用组合/聚合（has-a/contains-a）的方式，实现代码复用，而不是继承的方式实现代码复用
+
+### GIT版本控制工具
+
+#### 概念识记
+
+- 单独的HEAD指的是当前提交
+- 变基中git rebase -i HEAD~n
+- HEAD~1 ：表示当前提交的上一次提交
+- HEAD~2:表示当前提交的之前两次的提交
+- HEAD~3:依次类推
