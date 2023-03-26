@@ -29,7 +29,7 @@
 - Java语言的编译过程：javac编译器将代码编译成字节码（不是普通编译型语言的机器码），字节码再有虚拟机JVM解释执行
 - 命令1：javac HelloWorld.java,编译成.class文件（字节码文件）
 
-#### java命令
+#### java命令，另见Java命令传参
 
     - 命令2：java HelloWorld
     - 字节文件与平台无关，java语言具有可移植性了
