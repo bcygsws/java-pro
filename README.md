@@ -8,7 +8,7 @@
 - 由于Oak商标已经被注册，Sun将Oak改名为Java,并把Java放在互联网上，供人免费使用
 - 1995年，Sun发布Java语言；第二年，发布JDK 1.0
 - 2009年4月20日，Sun公司被Oracle以74亿美元的总价收购，Sun公司虽然不在了，但是Java语言却猎猎作响；原因则是谷歌在2007年发布了Android
-  系统，Android使用虚拟机Dalvik（达尔维克）,解释.dex文件；Dalvik和JAVA虚拟机JVM(java虚拟机解释的是.class文件)类似
+  系统，Android使用虚拟机Dalvik（达尔维克）,解释.dex文件；Dalvik和JAVA虚拟机JVM(java虚拟机解释的是.class文件)解释执行.class机制类似
 
 ### 二、Java的运行机制（编译型语言和解释型语言）
 
