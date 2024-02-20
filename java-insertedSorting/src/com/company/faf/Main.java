@@ -1,21 +1,27 @@
 package com.company.faf;
+/**
+ *
+ * @排序方式二：插入法排序
+ *
+ *
+ * */
 
 public class Main {
 
     public static void main(String[] args) {
         // write your code here
         // 调用插入排序函数insertedSorting
-        int arr[] = {38, 65, 97, 76, 13, 27, 49};
+        int[] arr = {38, 65, 97, 76, 13, 27, 49};
         insertedSorting(arr);
         // 输出这个数组
-        for (int j = 0; j < arr.length; j++) {
-            System.out.println(arr[j]);
+        for (int i : arr) {
+            System.out.println(i);
         }
     }
 
 
     // 排序方法二：插入排序
-    static void insertedSorting(int a[]) {
+    static void insertedSorting(int[] a) {
         // 1.判别不是空数组
         if (a != null) {
             // 2.外层循环
