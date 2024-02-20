@@ -47,3 +47,12 @@ public class Main {
 		}
 	}
 }
+/*
+ * @排序三
+ * 冒泡排序的评价：
+ * 1.由于冒泡排序的性能较差，不建议在大型数据集上使用
+ * 2.java jdk 提供了Arrays.sort() 或数据集排序Collections.sort()的排序方法
+ * 参考文档：
+ * https://cloud.tencent.com/developer/article/2332937
+ *
+ */
