@@ -44,15 +44,15 @@ public class Main {
 		// 定义两个数组L和R,存储临时元素
 		int[] L = new int[n1];
 		int[] R = new int[n2];
-		// 得到左序列
+		// 1.得到左序列
 		for (i = 0, k = p; i < n1; i++, k++) {
 			L[i] = arr[k];
 		}
-		// 得到右序列
+		// 2.得到右序列
 		for (j = 0, k = q + 1; j < n2; j++, k++) {
 			R[j] = arr[k];
 		}
-		// 左、右序列元素之间的比较
+		// 3.左、右序列元素之间的比较
 		for (i = 0, j = 0, k = p; i < n1 && j < n2; k++) {
 			if (L[i] > R[j]) {
 				arr[k] = R[j];
