@@ -1,5 +1,9 @@
 package com.company;
 
+/**
+ * @排序方法五：快速排序 快速排序和归并排序一样，也采用的是“分治”思想；每一趟将当前元素以index为界，切成两个子序列；左边序列的元素全部小于index
+ * 而右边序列的元素全部大于index
+ */
 public class Main {
 
 	public static void main(String[] args) {
