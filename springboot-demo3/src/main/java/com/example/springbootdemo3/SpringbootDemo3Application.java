@@ -48,7 +48,7 @@ public class SpringbootDemo3Application {
  * logging.file.name=springboot.log
  * logging.file.name=D:/springboot.log
  *
- * logging.file.path=E:/springboot.log
+ * logging.file.path=E:/springboot/log
  * 2.4 logging.file.name和logging.file.path是两个冲突设置，指定一个即可
  * 其中logging.file.name值也可以是路径
  * 2.5 logging.file.name和logging.file.path都指定的话，还是logging.file.name优先级更高，它会生效；
@@ -68,9 +68,20 @@ public class SpringbootDemo3Application {
  * %msg 日志消息
  * %n 是换行符
  *
+ * 3.指定配置
+ * 在类路径下放每个框架自己的配置文件即可，Spring Boot就不适用自己的配置文件了
+ * Logging System	               Customization
+ *  Logback                      logback-spring.xml, logback-spring.groovy, logback.xml, or logback.groovy
+ *  Log4j2                       log4j2-spring.xml or log4j2.xml
+ *  JDK (Java Util Logging)      logging.properties
  *
- *
- *
+ * 3.1 重点：logback.xml和logback-spring.xml不同，推荐使用后者
+ * 原因是：
+ * logback.xml直接被日志框架识别
+ * 而logback-spring.xml,日志框架不识别它，而是交给spring boot来处理，这样就可以使用spring boot的一些高级功能
+ * 比如springProfile标签，来指定不同环境下，日志记录的格式
+ * 3.2 复制logback.xml文件，将logback.xml里的内容全部注释掉，将复制过来的文件命名为logback-spring.xml
+ * 并使用springProfile标签
  *
  *
  */

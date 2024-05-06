@@ -8,6 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class SpringbootDemo3ApplicationTests {
+	// 获取日志记录器对象logger
 	Logger logger = LoggerFactory.getLogger(getClass());
 
 	@Test

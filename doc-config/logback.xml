@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- &lt;!&ndash; 参考文档：https://blog.csdn.net/myli92/article/details/127952223 &ndash;&gt; -->
+<!-- &lt;!&ndash;configuration根节点&ndash;&gt; -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<!-- <property name=""/> -->
+	<!-- 	&lt;!&ndash; 1. 定义输出到控制台的日志格式和目标 &ndash;&gt; -->
+	<!-- 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender"> -->
+	<!-- 		<encoder> -->
+	<!-- 			<pattern>%d{HH:mm:ss.SSS}-&ndash;&gt;[%thread]-&ndash;&gt;%-5level-&ndash;&gt;%logger{50}-&ndash;&gt;%msg%n</pattern> -->
+	<!-- 		</encoder> -->
+	<!-- 	</appender> -->
+	<!-- 	&lt;!&ndash; 2. 定义输出到文件的日志格式和目标 &ndash;&gt; -->
+	<!-- 	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender"> -->
+	<!-- 		<file>myapp.log</file> -->
+	<!-- 		&lt;!&ndash; append标签内，布尔值确定日志是否追加到文件末尾？默认值就是true;false表示清空当前文件，重新希尔呢 &ndash;&gt; -->
+	<!-- 		<append>true</append> -->
+	<!-- 		&lt;!&ndash; 2.1 最常用的就是当前class属性中声明的【根据时间来指定滚动策略】，既负责滚动，也负责触发滚动； -->
+	<!-- 		 2.2 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"： 查看当前活动文件的大小， -->
+	<!-- 		 如果超过指定大小会告知RollingFileAppender 触发当前活动文件滚动 -->
+	<!-- 		 2.3 class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy" 根据固定窗口算法重命名文件的滚动策略&ndash;&gt; -->
+	<!-- 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy"> -->
+	<!-- 			&lt;!&ndash; fileNamePattern是必须的标签，满足指定条件后，日志记录转移到当前属性指定的日志文件中 &ndash;&gt; -->
+	<!-- 			<fileNamePattern>myapp.%d{yyyy-MM-dd}.log</fileNamePattern> -->
+	<!-- 			&lt;!&ndash; maxHistory声明日志文件保留天数 &ndash;&gt; -->
+	<!-- 			<maxHistory>1</maxHistory> -->
+	<!-- 		</rollingPolicy> -->
+	<!-- 		<encoder> -->
+	<!-- 			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern> -->
+	<!-- 		</encoder> -->
+	<!-- 	</appender> -->
+	<!-- 	&lt;!&ndash; 3. 定义根日志级别 &ndash;&gt; -->
+	<!-- 	<root level="INFO"> -->
+	<!-- 		<appender-ref ref="STDOUT"/> -->
+	<!-- 		<appender-ref ref="FILE"/> -->
+	<!-- 	</root> -->
+</configuration>

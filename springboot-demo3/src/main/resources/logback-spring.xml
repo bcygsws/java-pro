@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- 参考文档：https://blog.csdn.net/myli92/article/details/127952223 -->
+<!--configuration根节点-->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	<!-- 1. 定义输出到控制台的日志格式和目标 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<!-- 使用springProfile标签，控制在不同环境下，日志记录的不同格式 -->
+			<springProfile name="dev">
+				<pattern>%d{HH:mm:ss.SSS}--->[%thread]--->%-5level--->%logger{50}--->%msg%n</pattern>
+			</springProfile>
+			<springProfile name="!dev">
+				<pattern>%d{HH:mm:ss.SSS}===[%thread]===%-5level===%logger{50}===%msg%n</pattern>
+			</springProfile>
+		</encoder>
+	</appender>
+	<!-- 2. 定义输出到文件的日志格式和目标 -->
+	<appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>myapp.log</file>
+		<!-- append标签内，布尔值确定日志是否追加到文件末尾？默认值就是true;false表示清空当前文件，重新希尔呢 -->
+		<append>true</append>
+		<!-- 2.1 最常用的就是当前class属性中声明的【根据时间来指定滚动策略】，既负责滚动，也负责触发滚动；
+		 2.2 class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy"： 查看当前活动文件的大小，
+		 如果超过指定大小会告知RollingFileAppender 触发当前活动文件滚动
+		 2.3 class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy" 根据固定窗口算法重命名文件的滚动策略-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<!-- fileNamePattern是必须的标签，满足指定条件后，日志记录转移到当前属性指定的日志文件中 -->
+			<fileNamePattern>myapp.%d{yyyy-MM-dd}.log</fileNamePattern>
+			<!-- maxHistory声明日志文件保留天数 -->
+			<maxHistory>1</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<!-- 3. 定义根日志级别 -->
+	<root level="INFO">
+		<appender-ref ref="STDOUT"/>
+		<appender-ref ref="FILE"/>
+	</root>
+</configuration>
