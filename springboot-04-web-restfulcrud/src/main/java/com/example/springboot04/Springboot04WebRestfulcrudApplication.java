@@ -11,3 +11,11 @@ public class Springboot04WebRestfulcrudApplication {
 	}
 
 }
+/*
+*
+* @spring boot静态资源映射规则
+*
+* 
+*
+*
+* */
