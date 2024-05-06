@@ -80,8 +80,37 @@ public class SpringbootDemo3Application {
  * logback.xml直接被日志框架识别
  * 而logback-spring.xml,日志框架不识别它，而是交给spring boot来处理，这样就可以使用spring boot的一些高级功能
  * 比如springProfile标签，来指定不同环境下，日志记录的格式
- * 3.2 复制logback.xml文件，将logback.xml里的内容全部注释掉，将复制过来的文件命名为logback-spring.xml
- * 并使用springProfile标签
+ * 3.2 复制logback.xml文件，将logback.xml文件移除（存放在java-pro/doc-config路径中，避免它对logback-spring.xml文件的干扰），
+ * 将复制过来的文件命名为logback-spring.xml；并使用springProfile标签，控制不同的环境下，日志记录的不同格式
  *
+ * 4.日志框架切换【不必要的，就是由于log4j不好，spring boot框架才使用slf4j+logback来做日志记录】
+ * 日志框架
+ * 当前使用的是：slf4j+logback
+ * 假设我们想使用slf4j+log4j
+ * 4.1 首先排除logback的两个jar包：logback-classic和logback-core
+ * 4.2 要使用log4j，那么log4j的API log4j-over-slf4j也要排除
+ * 4.3 在pom文件中导入slf4j-log4j12依赖
+ *  <dependency>
+ *       <groupId>org.slf4j</groupId>
+ *       <artfactId>slf4j-log4j12</artfactId>
+ *  </dependency>
+ *
+ * 4.4 在类路径下，添加一个log4j的配置文件，log4j.properties
+ * 这个配置文件，被log4j框架识别
+ *
+ *
+ * 五、springboot web开发步骤
+ * 5.1 创建springboot应用，根据需要选中的模块
+ *
+ * 5.2 spring boot已经默认将这行场景配置好了（就是前面研究的自动配置原理），只需要添加少量配置，项目就能运行起来
+ *
+ * 5.3 自己编写业务代码
+ * 自动配置原理？
+ * 要考虑的是：
+ * 要思考spring boot帮我们做了什么？能不能修改？能修改哪些配置？能不能扩展？等等
+ *
+ * xxxAutoConfiguration是帮我们给容器配置组件
+ * xxxxProperties帮我们封装配置文件的内容
+ * 
  *
  */
