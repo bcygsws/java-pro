@@ -1,10 +1,49 @@
 <!DOCTYPE html>
-<html lang="en">
+<!--在html标签中添加xml文件的命名空间(xmlns)之后，就可以使用thymeleaf的提示功能了，不导入这个属性，项目正常运行，但是没有thymeleaf的语法提示-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+	<meta charset="UTF-8">
+	<title>thymeleaf引擎，请求成功页面</title>
+	<!-- 静态资源在类路径下的public static META-INF/resources 和resources这些文件夹，spring boot是可以映射到的-->
+	<!--1.前端方式使用link引入样式文件-->
+	<!--	<link href="./css/based.css" rel="stylesheet"/>-->
+	<!--2.后端方式使用link引入样式文件-->
+	<link rel="stylesheet" th:href="@{./css/based.css}"/>
+	<style>
+        /*.my-class {*/
+        /*    font: italic 700 18px Arial;*/
+        /*    color: red;*/
+        /*}*/
+	</style>
 </head>
 <body>
-$END$
+<h1>请求成功！</h1>
+<!--规则1：th:text将h2标签的文本设置为hello变量值
+访问localhost:8080/success测试，看h2中是否拿到了hello值？结果，页面中成功拿到了hello的文本值"你好啊~"-->
+<!--直接在本地打开success.html显示前端书写的原始页面，运行后端项目后，hello值就覆盖掉了【这是要显示的值：】，如此，前后端的分工就更加明确了-->
+<!--<h2 th:text="${hello}">这是要显示的值：</h2>-->
+<h2 th:text="${hello}"></h2>
+<!--规则2：html任意属性的值，都可以使用(th:原生属性名) 来替换-->
+<h3 class="my-class" id="myID" th:text="${hello}"></h3>
+<hr/>
+<!--th:text转义，将html片段解析成普通字符-->
+<h3 th:text="${hello}"></h3>
+<!--th:utext不转义，解析html片段，将其按照本来的含义输出-->
+<hr/>
+<h3 th:utext="${hello}"></h3>
+<hr/>
+<!--使用遍历属性th:each-->
+<!--会生成users长度个数相同的h4; th:text="${user}"等价于[[${user}]] 同理，th:utext="${user}" 等价于[(${user})]-->
+<!--遍历项user的值，有两种写法：1.使用th:text最直观的写法 2.行内表达式写法使用中括号套中括号，或者中括号套小括号 包裹${user}-->
+<!--<div th:each="item : ${users}" th:text="${item}"></div>-->
+<h4 th:each="user :${users}">[[ ${user} ]]</h4>
+<!--会生成users长度相同的span-->
+<div>
+	<!--	<span th:each="item : ${users}" th:text="${item}"></span>-->
+	<span th:class="${index.odd}? 'my-class'" th:each="item,index : ${users}">[( ${item} )]</span>
+</div>
+<script>
+
+</script>
 </body>
 </html>

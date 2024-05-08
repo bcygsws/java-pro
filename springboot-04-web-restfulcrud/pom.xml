@@ -35,6 +35,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
+		<!--spirng boot修改代码，实时刷新的问题，spring-boot-devtools -->
+		<!-- <dependency> -->
+		<!-- 	<groupId>org.springframework.boot</groupId> -->
+		<!-- 	<artifactId>spring-boot-devtools</artifactId> -->
+		<!-- 	<optional>true</optional> -->
+		<!-- </dependency> -->
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

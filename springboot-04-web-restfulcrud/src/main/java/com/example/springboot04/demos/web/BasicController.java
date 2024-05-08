@@ -22,6 +22,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Arrays;
+import java.util.Map;
+
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>
  */
@@ -63,5 +66,19 @@ public class BasicController {
 			, @RequestParam(name = "age", defaultValue = "12") Integer age, User user) {
 		user.setName("zhangsan");
 		user.setAge(18);
+	}
+
+	// thymeleaf模板引擎，可以解析类路径下的templates文件下的.html页面，在/templates文件夹下写一个success.html页面
+	// 发送http://localhost:8080/success请求，看是否返回thymeleaf模板引擎解析的success.html页面？
+	// 为了掩饰，thymeleaf语法，在success()方法中，放入一个map键值对
+	@RequestMapping("/success")
+	public String success(Map<String, Object> map) {
+		// th:text="${hello}"可以在success.html页面中取值了
+		// map.put("hello", "你好啊~");
+		map.put("hello", "<h1>你好</h1>");
+		map.put("users", Arrays.asList("屈原", "陶渊明", "杜甫", "苏轼"));
+		// classpath: "/templates/success.html"
+		// 返回的是类路径下templates文件夹下，一个.html文件的名称
+		return "success";
 	}
 }

@@ -101,7 +101,89 @@ public class Springboot04WebRestfulcrudApplication {
  *
  * 使用thymeleaf的步骤：
  * 1.在pom文件中，导入依赖，spring-boot-starter-thymeleaf
- * 2.
+ * 2.把.html文件路径，放在类路径下的templates文件夹下，就可以使用thymeleaf模板引擎来解析了
+ *
+ * 原理：ThymeleafProperties.class中代码片段
+ *
+ * public class ThymeleafProperties {
+ *  private static final Charset DEFAULT_ENCODING;
+ *  public static final String DEFAULT_PREFIX = "classpath:/templates/";
+ *  public static final String DEFAULT_SUFFIX = ".html";
+ *  private boolean checkTemplate = true;
+ *  private boolean checkTemplateLocation = true;
+ *  private String prefix = "classpath:/templates/";
+ *  private String suffix = ".html";
+ *
+ * 3.在BasicController类中，写一个hello请求，返回的是经过thymeleaf引擎渲染的success.html页面
+ * 3.1 为了获得thymeleaf的语法提示功能
+ * 在html标签中添加xmlns(xm文件的命名空间xmlns)命名空间以后，就可以使用thymeleaf的提示功能了，不导入这个属性，项目正常运行，但是没有thymeleaf的语法提示
+ * 3.2 前、后端开发人员分工更明确
+ * 直接在本地打开success.html显示前端书写的原始页面，运行后端项目后，hello值就覆盖掉了【这是要显示的值：】，如此，前后端的分工就更加明确了
+ * 前端给出的页面，本地打开 <h2 th:text="${hello}">这是要显示的值：</h2>
+ * 运行spring boot项目后，经过模板引擎thymeleaf渲染后，hello值就覆盖掉【这是要显示的值：】 <h2 th:text="${hello}">这是要显示的值：</h2>
+ * 4.thymeleaf语法规则
+ * 4.1 th:text="${}" ,改变当前元素里的文本内容的
+ * 4.2 可以使用html任意属性的值，来替换原生属性的值
+ * 例如：如果前端给的页面还有id或者class属性，都可以更改
+ * <h2  id="myId" class="myClass" th:text="${hello}">这是要显示的值：</h2>
+ * 使用类似的th:id或者th:class进行更改
+ * <h2  id="myId" class="myClass" th:id="" th:class="" th:text="${hello}">这是要显示的值：</h2>
+ * 问题：th: 属性有多少以及 th: 标签的优先级（attribute precedence）？
+ *
+ * 表格，th:属性分成九个级别
+ *
+ * Order                Feature                                  Attributes
+ * 1                    fragment inclusion(片段包含操作)          th:insert
+ *                                                               th:replace
+ * 2                    fragment iteration (遍历)                    th:each
+ * 3                    conditional evaluation (条件判断)           th:if
+ *                                                                  th:unless
+ *                                                                  th:switch
+ *                                                                  th:case
+ * 4                    local variable definition(本地变量声明)      th:object
+ *                                                                   th:with
+ * 5                     general attribute modification(一般属性修改)         th:attr
+ *                                                                           th:attrprepend
+ *                                                                           th:attrappend
+ * 6                   specific attribute modification(专用属性修改)          th:value
+ *                                                                            th:href
+ *                                                                            th:src
+ * 7                   Text(tag body modification,标签包裹的文本内容修改)       th:text(转义，会将html代码片段以纯文本的形式显示，不会解析假期中的html或者script里的语句)
+ *                                                                             th:utext(不转义，按照本来的内容输出，会将解析其中的html片段或者执行script标签里面的语句)
+ * 8                   fragment  specification(声明片段)                           th:fragment
+ * 9                   fragment removal（移除片段）                                 th:remove
+ *
+ * 具体参考截图：java-pro/attribute-precedence_thymeleaf.jpg
+ *
+ * 4.3 表达式
+ * thymeleaf可以写哪些表达式？
+ * 表达式名字	  语法	        用途
+ * 变量取值	    ${...} 	 获取请求域、session域、对象等值
+ * 选择变量	    *{...}	 获取上下文对象值
+ * 消息	        #{...}	 获取国际化等值
+ * 链接	        @{...}	 生成链接
+ * 片段表达式	~{...}	 jsp:include 作用，引入公共页面片段
+ *
+ * a. 表达式 ：${变量}  用于获取变量值，
+ * 高级功能：
+ * 1.还可以调用属性和方法
+ * 2.使用内置对象  例如：获取当前国家信息<div th:text="${#locale.country}"></div>
+ *
+ * b. 表达式 ：*{变量}  用于获取上下文对象值,通常用于简化上下文对象中拿到变量的值（其功能类似于this获取上下文对象，然后使用 ...toRefs()的功能）
+ * ${session.user}拿到对象以后，下面直接使用*{firstName}（代替书写更加繁琐的${session.user.firstName}）
+ * 举例：
+ * Object user={firstName:"",lastName:"",nationality:""}
+ * user是具有上面三个键的对象
+ * <div th:object="${session.user}">
+ *  <p>Name:<span th:text="*{firstName}"></span></p>
+ *  <p>Surname:<span th:text="*{lastName}"></span></p>
+ *  <p>country:<span th:text="*{nationality}"></span></p>
+ * </div>
+ *
+ *
+ *
+ *
+ * 链接：https://www.bilibili.com/video/BV1Et411Y7tQ/?p=30&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
  *
  *
  *
