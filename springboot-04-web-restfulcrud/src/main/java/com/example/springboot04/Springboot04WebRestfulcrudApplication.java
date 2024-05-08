@@ -2,12 +2,31 @@ package com.example.springboot04;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.ViewResolver;
+
+import java.util.Locale;
 
 @SpringBootApplication
 public class Springboot04WebRestfulcrudApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Springboot04WebRestfulcrudApplication.class, args);
+	}
+
+	@Bean
+	public ViewResolver myViewResolver() {
+		return new MyViewResolver();
+	}
+
+	// 静态内部类
+	private static class MyViewResolver implements ViewResolver {
+
+		@Override
+		public View resolveViewName(String viewName, Locale locale) throws Exception {
+			return null;
+		}
 	}
 
 }
@@ -180,10 +199,162 @@ public class Springboot04WebRestfulcrudApplication {
  *  <p>country:<span th:text="*{nationality}"></span></p>
  * </div>
  *
+ * 六、Spring MVC自动配置原理
+ * 搜索类 SpringMvcAutoConfiguration
+ * 一句话：spring boot默认配置好了Spring MVC
+ * 以下是spring boot对spring mvc的默认处理：
+ * 6.1. inclusion of ContentNegotiationViewResolver and BeanNameViewResolver
+ * 自动配置了ViewResolver(视图解析器：根据方法的返回值得到视图对象View,视图对象决定如何渲染？是转发、还是重定向等等)
+ * ContentNegotiationViewResolver：作用是组合视图的解析器
+ * 自己如何定制呢？我们向容器中添加一个视图解析器，自动的将其组合起来
+ * 6.1.1 在当前主配置类中书写以下代码：
+ * @Bean
+ * public ViewResolver myViewResolver(){
+ *   return new MyViewResolver();
+ * }
+ * // 静态内部类
+ * private static class MyViewResolver implements ViewResolver{
+ *
+ * @Override
+ * public View resolveViewName(String viewName, Locale locale) throws Exception {
+ *    return null;
+ * }
+ *
+ * 6.1.2 shift点击两下，搜索DispatcherServlet类
+ * 在该类的doDispatch()方法上，打上断点，F5调试运行
+ * 6.1.3 发送一个请求，例如：localhost:8080/success
+ * 在调试器中，依次展开
+ * this--->viewResolvers(size=6)--->索引为0，也即第一个元素就是ContentNegotiationViewResolvers,
+ * 继续展开ContentNegotiationViewResolvers，就看到了自定义的MyViewResolver
+ *
+ * SpringBoot04WebRestfulcrudApplication$MyViewResolver@6958
+ *
+ * 6.2 支持服务器端静态资源访问
+ * support for static resources,including support for webjars(see below)
+ * static index.html 静态首页访问
+ * custom favicon support (see below) 网页图标的支持
+ * 6.3 自动注册了转换器- Converter,GenericConverter,Formatter beans
+ * Converter(转换器) 例如：public String hello(){}，类型转换使用Converter
+ * Formatter(格式化器) 2017-12-17 --->Date类型的数据
+ *
+ * 6.4 支持HttpMessageConverters (see below)
+ * HttpMessageConverters是spring mvc用来转换http请求和响应的,比如user---要一json的形式写出去
+ * HttpMessageConverters是从容器中确定的，获取所有的HttpMessageConverters
+ *
+ * 6.5 自动注册消息解析器-MessageCodesResolver
+ * 用来定义错误代码生成规则的
+ *
+ * 6.6 自动使用一个ConfigurableWebBindingInitializer bean(see below)
+ * 6.6.1 初始化 数据绑定器 WebDateBinder
+ * 6.6.2 请求数据===JavaBean
+ * C:\Users\Administrator\.m2\repository\org\springframework\boot\spring-boot-autoconfigure\2.6.13\spring-boot-autoconfigure-2.6.13.jar!\org\springframework\boot\autoconfigure\web
+ *
+ * 七、扩展spring MVC
+ * springmvc.xml
+ *    <mvc:view-controller path="/hello" view-name="success"></mvc:view-controller>
+ *    <mvc:interceptors>
+ *        <mvc:interceptor>
+ *           <mvc:mapping path="/hello"></mvc:mapping>
+ *           <bean></bean>
+ *        </mvc:interceptor>
+ *    </mvc:interceptors>
+ *
+ * 为实现上面的功能，在spring boot使用配置类实现
+ * 定义一个配置类（@Configuration）,它必须是WebMvcConfigurerAdapter类型（高版本后，由抽象类变成了接口WebMvcConfigurer），而且
+ * 不能添加@EnableWebMvc注解
+ *
+ * 好处：
+ * 既保持了spring boot的自动配置，也能使用用户扩展的配置
+ *
+ * 原理是什么？
+ * 1.关注WebMvcAutoConfiguration类上有一个注解
+ * 伪代码
+ * @Import({EnableWebMvcConfiguration.class})
+ * @EnableConfigurationProperties({WebMvcProperties.class, WebProperties.class})
+ * @Order(0)
+ *
+ * 2.导入了一个类EnableWebMvcConfiguration
+ * 3.进入该类（仍然定义在WebMvcAutoConfiguration类中），423行@Import({EnableWebMvcConfiguration.class})
+ * 4.EnableWebMvcConfiguration，继承自DelegatingWebMvcConfiguration，我们发现这个DelegatingWebMvcConfiguration类中，
+ * 声明了WebMvcConfigurerAdapter（高版本后，由抽象类变成了接口WebMvcConfigurer）中所有的功能方法，比如：addViewController(添加视图映射方法)等等
+ * 5.List<WebMvcConfigurer> 表示容器中所有的WebMvcConfigurer都会被放到一个List,一起起作用。用户自己配置类也会被调用
+ * 效果：spring mvc的自动配置和自己的配置都会起作用
+ *
+ *
+ * 参考文档：https://juejin.cn/s/%40autowired(required%20%3D%20false)%E4%BB%80%E4%B9%88%E6%84%8F%E6%80%9D
+ * 伪代码：
+ * @Autowired(
+ *        required = false
+ *  )
+ * public void setConfigurers(List<WebMvcConfigurer> configurers) {
+ *     if (!CollectionUtils.isEmpty(configurers)) {
+ *        this.configurers.addWebMvcConfigurers(configurers);
+ *       }
+ *  }
+ *
+ * @Autowired(required = false)表示:其下方的字段是可选的，如果找不到匹配的bean（用户自定义的bean），也不会报错
+ *
+ *
+ * 6.全面接管spring mvc（添加@EnableWebMvc注解）
+ * spring boot对spring mvc的自动配置全部失效了，所有的东西都需要我们自己配置
+ * 如果我们在MyMvcConfig类中添加@EnalbeWebMvc注解，其结果之一就是那些静态资源的访问全部失效
+ * localhost:8080/css/based.css，就会成为404页面了
+ *
+ * 分析：为什么添加注解@EnableWebMvc,spring boot对spring mvc自动配置就失效了呢？（a、b、c、d）
+ * a.查找EnableWebMvc，伪代码：
+ * @Import({DelegatingWebMvcConfiguration.class})
+ * public @interface EnableWebMvc {
+ * }
+ *
+ * b.导入了DelegatingWebMvcConfiguration，分析这个类；
+ * 伪代码
+ * public class DelegatingWebMvcConfiguration extends WebMvcConfigurationSupport {}
+ *
+ * c.再回来看WebMvcAutoConfiguration类的注解
+ * @Configuration(
+ * proxyBeanMethods = false
+ * )
+ * @ConditionalOnWebApplication(
+ *  type = Type.SERVLET
+ * )
+ * @ConditionalOnClass({Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class})
+ * @ConditionalOnMissingBean({WebMvcConfigurationSupport.class})  // ConditionalOnMissingBean含义是：容器中没有这个bean时，自动配置类才生效
+ * @AutoConfigureOrder(-2147483638)
+ * @AutoConfigureAfter({DispatcherServletAutoConfiguration.class, TaskExecutionAutoConfiguration.class, ValidationAutoConfiguration.class})
+ * public class WebMvcAutoConfiguration {
+ *
+ * d.没有WebMvcConfigurationSupport自动配置才生效，@ConditionalOnMissingBean({WebMvcConfigurationSupport.class})
+ * 然而，添加@EnableWebMvc注解后--->自动导入DelegatingWebMvcConfiguration--->DelegatingWebMvcConfiguration这个类继
+ * 承自WebMvcConfigurationSupport--->也就是容器中有WebMvcConfigurationSupport这个类---> @ConditionalOnMissingBean拿到了相反的条件
+ * --->spring boot对spring mvc的自动配置功能就失效了
  *
  *
  *
- * 链接：https://www.bilibili.com/video/BV1Et411Y7tQ/?p=30&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
+ *
+ *
+ * 附：如何修改spring boot默认配置？
+ * 模式一：
+ * spring boot在自动配置很多组件时，先看用户有没有自己配置的(例如使用@Bean或者@Component添加了组件)
+ * 如果有，一般就优先使用用户配置的；如果没有，才使用springboot源码中自动配置的
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  *
