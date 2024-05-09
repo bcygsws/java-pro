@@ -2,6 +2,7 @@ package com.example.springboot04;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.ViewResolver;
@@ -12,8 +13,23 @@ import java.util.Locale;
 public class Springboot04WebRestfulcrudApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Springboot04WebRestfulcrudApplication.class, args);
+		// SpringApplication.run(Springboot04WebRestfulcrudApplication.class, args);
+		// 1.返回ioc容器
+		ConfigurableApplicationContext ioc = SpringApplication.run(Springboot04WebRestfulcrudApplication.class, args);
+		// 2.获取ioc容器中组件的名称，并打印出来
+		String[] comNames = ioc.getBeanNamesForType(MyViewResolver.class);
+		for (String name : comNames) {
+			System.out.println(name);// myViewResolver
+		}
+		// 3.判断id为myViewResolver的组件是否在ioc容器中
+		boolean bool = ioc.containsBean("myViewResolver");
+		System.out.println(bool);// true
+		// 4.直接从容器中获取MyViewResolver对象
+		MyViewResolver myViewResolverObj = ioc.getBean(MyViewResolver.class);
+		System.out.println(myViewResolverObj);
+
 	}
+
 
 	@Bean
 	public ViewResolver myViewResolver() {
@@ -335,30 +351,10 @@ public class Springboot04WebRestfulcrudApplication {
  * 附：如何修改spring boot默认配置？
  * 模式一：
  * spring boot在自动配置很多组件时，先看用户有没有自己配置的(例如使用@Bean或者@Component添加了组件)
- * 如果有，一般就优先使用用户配置的；如果没有，才使用springboot源码中自动配置的
+ * 如果有，一般就优先使用用户配置的；如果没有，才使用自动配置的；有些组件有多个ViewResolver可以将用户配置的和spring boot默认的组合起来
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ * 模式二：
+ * 在spring boot中有非常多的xxxConfigurer,帮助我们进行扩展配置
  *
  *
  *
