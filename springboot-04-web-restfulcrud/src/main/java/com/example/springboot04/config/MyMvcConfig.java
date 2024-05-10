@@ -1,8 +1,10 @@
 package com.example.springboot04.config;
 
+import com.example.springboot04.component.MyLocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -58,6 +60,14 @@ public class MyMvcConfig implements WebMvcConfigurer {
 			}
 		};
 		return webMvcConfigurer;
+	}
+
+	// 登录切面国际化，切换中、英文，自定义的MyLocaleResolver需要添加到容器中，在config/MyMvcConfig配置类中，将这个组件添加到容器中
+	// 重写localeResolver方法；spring boot为我们自动配置的localeResolver(此时，切换浏览器语言，界面中英文切换已经不能用了，
+	// 原因是：spring boot为我们自动配置的localResolver已经被自定义的覆盖掉了)
+	@Bean
+	public LocaleResolver localeResolver() {
+		return new MyLocaleResolver();
 	}
 
 }
