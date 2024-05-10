@@ -356,6 +356,81 @@ public class Springboot04WebRestfulcrudApplication {
  * 模式二：
  * 在spring boot中有非常多的xxxConfigurer,帮助我们进行扩展配置
  *
+ * 项目开发开始
+ * 一、导入dao和entities文件夹，以及静态资源
+ * 包含asserts的整个文件夹放入默认static目录下，spring boot能够映射到这些静态资源
+ * 至于html页面，将其放在/templates文件夹下，我们想使用thymeleaf模板引擎语法
+ *
+ * 在application.properties文件中配置
+ * server.servlet.context-path=/crud
+ * 项目访问时，都需要在@RequstMapping中的原有路径前叠加 /crud了；但注意：其他静态资源的路径不需要更改，spring boot配置生效后，会主动叠加上/crud
+ * context-path配置设置前，访问登录页
+ * localhost:8080/
+ * localhost:8080/login.html
+ *
+ * 配置后
+ * localhost:8080/crud
+ * localhost:8080/crud/login.html
+ *
+ * 可以使用webjars导入bootstrap的公共样式
+ * th:href="@{/webjars/}"
+ *
+ * 二、登录窗口的国际化问题
+ * spring mvc中国际化的步骤，spring boot中简化，只需要编写国际化配置文件即可
+ * 2.1 编写国际化配置文件
+ * 2.2 使用ResourceBundleMessageSource管理国际化资源
+ * 2.3 在页面使用fmt:message取出国际化内容
+ *
+ * 步骤
+ * 1.在resources下新建文件夹i18n
+ * 依次创建配置文件
+ * login.properties  不指定语言，默认的
+ * login_en_US.properties 英文的
+ * login_zh_CN.properties 中文的
+ *
+ * 2.检查MessageSourceAutoConfiguration自动配置类
+ * 里面确实使用了ResourceBundleMessageSource类管理国际化资源，spring boot已经帮我们处理好了
+ *  ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+ *
+ * @Bean
+ * @ConfigurationProperties(
+ *     prefix = "spring.messages"
+ *  )
+ * 里面有个注解@ConfigurationProperties
+ * 配置文件的前缀名为messages
+ * 也就只要配置文件写成messages.properties,那么不需要任何额外配置，就可以使用国家化功能了
+ * 但是，我们将国际化配置文件，统一放在i18n文件夹下了，需要在主配置文件中配置以下代码：
+ * spring.messages.basename=i18n.login
+ * i18n是类路径起的文件夹名，login是basename
+ *
+ * @Beanpublic MessageSource messageSource(MessageSourceProperties properties) {
+ *
+ * ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+ * if (StringUtils.hasText(properties.getBasename())) {
+ *         messageSource.setBasenames(StringUtils.commaDelimitedListToStringArray(StringUtils.trimAllWhitespace(properties.getBasename())));
+ *       }
+ *    if (properties.getEncoding() != null) {
+ *
+ *           messageSource.setDefaultEncoding(properties.getEncoding().name());
+ *      }
+ *
+ *      messageSource.setFallbackToSystemLocale(properties.isFallbackToSystemLocale());
+ *       Duration cacheDuration = properties.getCacheDuration();
+ *       if (cacheDuration != null) {
+ *           messageSource.setCacheMillis(cacheDuration.toMillis());
+ *       }
+ *
+ *      messageSource.setAlwaysUseMessageFormat(properties.isAlwaysUseMessageFormat());
+ *      messageSource.setUseCodeAsDefaultMessage(properties.isUseCodeAsDefaultMessage());
+ *      return messageSource;
+ *  }
+ *
+ * 3.去页面获取国家化值
+ * 参考file:///E:/java-pro/%E6%96%87%E6%A1%A3/usingthymeleaf.pdf
+ * 4.1小节的内容
+ * #{}获取国际化值的
+ *
+ *
  *
  *
  */

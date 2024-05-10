@@ -30,6 +30,12 @@ import java.util.Map;
  */
 @Controller
 public class BasicController {
+	// http://127.0.0.1:8080/
+	// 导入dao和entities文件夹后，默认要访问到templates文件夹下的login.html
+	// @RequestMapping({"/", "/login.html"})
+	// public String login() {
+	// 	return "login";
+	// }
 
 	// http://127.0.0.1:8080/hello?name=lisi
 	@RequestMapping("/hello")

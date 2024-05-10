@@ -1,6 +1,8 @@
 package com.example.springboot04.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -40,6 +42,22 @@ public class MyMvcConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// /atguigu路径中，没有添加数据，所有跳转到了success.html页面，但是没有填充数据
 		registry.addViewController("/atguigu").setViewName("success");
+	}
+
+	// 添加一个组件webMvcConfigurer,来控制程序的默认访问到login.html(/、/login.html路径，都访问到templates中的登录页面)
+	@Bean
+	public WebMvcConfigurer webMvcConfigurer() {
+		WebMvcConfigurer webMvcConfigurer;
+		// 由于webMvcConfigurer是一个接口，实例化时需要实现；我们需要添加视图映射，就重写其中的addViewControllers()方法
+		webMvcConfigurer = new WebMvcConfigurer() {
+			@Override
+			public void addViewControllers(ViewControllerRegistry registry) {
+				registry.addViewController("/").setViewName("login");
+				registry.addViewController("/login.html").setViewName("login");
+
+			}
+		};
+		return webMvcConfigurer;
 	}
 
 }

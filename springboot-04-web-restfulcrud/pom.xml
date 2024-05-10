@@ -41,6 +41,12 @@
 		<!-- 	<artifactId>spring-boot-devtools</artifactId> -->
 		<!-- 	<optional>true</optional> -->
 		<!-- </dependency> -->
+		<!--以webjars的方式导入bootstrap的css样式文件-->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>4.0.0</version>
+		</dependency>
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>
