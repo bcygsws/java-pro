@@ -12,26 +12,31 @@
 	<link href="./asserts/css/bootstrap.min.css" rel="stylesheet"
 	      th:href="@{/webjars/bootstrap/4.0.0/dist/css/bootstrap.css}">
 	<!-- Custom styles for this template -->
-	<link href="./asserts/css/signin.css" rel="stylesheet" th:href="@{asserts/css/signin.css}">
+	<link href="./asserts/css/signin.css" rel="stylesheet" th:href="@{/asserts/css/signin.css}">
 </head>
 
 <body class="text-center">
-<form action="dashboard.html" class="form-signin">
-	<img alt="" class="mb-4" height="72" src="./asserts/img/bootstrap-solid.svg"
-	     th:src="@{asserts/img/bootstrap-solid.svg}" width="72">
+<form action="dashboard.html" class="form-signin" method="post" th:action="@{/user/login}">
+	<img alt="" class="mb-4" height="72" src="asserts/img/bootstrap-solid.svg"
+	     th:src="@{/asserts/img/bootstrap-solid.svg}" width="72">
 	<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign in</h1>
-	<label class="sr-only" th:text="#{login.username}">Username</label>
-	<input autofocus="" class="form-control" placeholder="Username" required="" th:placeholder="#{login.username}"
+	<!--动态显示的p标签，提供登录失败后反馈的信息,th:if 优先级3，th:text优先级7	-->
+	<p th:if="${not #strings.isEmpty(msg)}" th:text="${msg}"></p>
+	<label class="sr-only" for="user" th:text="#{login.username}">Username</label>
+	<input autocomplete="off" autofocus="" class="form-control" id="user" name="username" placeholder="Username"
+	       required=""
+	       th:placeholder="#{login.username}"
 	       type="text"/>
-	<label class="sr-only" th:text="#{login.password}">Password</label>
-	<input class="form-control" placeholder="Password" required="" th:placeholder="#{login.password}"
-	       type="password"/>
+	<label class="sr-only" for="pwd" th:text="#{login.password}">Password</label>
+	<input autocomplete="off" class="form-control" id="pwd" name="password" placeholder="Password" required=""
+	       th:placeholder="#{login.password}" type="password"
+	/>
 	<div class="checkbox mb-3">
 		<label>
 			<!--<input type="checkbox" value="remember-me" th:text="#{login.remember}"> Remember me-->
 			<!--以上是错误用法，复选框的描述文本呢，不是input直接的属性，我们可以使用行内表达式的方式来处理，双层中括号的方式-->
 			<!-- #{}表达式直接取出国际化信息了，但是中文字符出现乱码，如何解决？-->
-			<input type="checkbox" value="remember-me"> [[ #{login.remember} ]]
+			<input id="remember" type="checkbox" value="remember-me"/> [[ #{login.remember} ]]
 		</label>
 	</div>
 	<button class="btn btn-lg btn-primary btn-block" th:text="#{login.btn}" type="submit">Sign in</button>

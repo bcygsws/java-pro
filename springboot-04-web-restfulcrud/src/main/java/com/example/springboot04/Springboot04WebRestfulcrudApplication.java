@@ -403,7 +403,8 @@ public class Springboot04WebRestfulcrudApplication {
  * spring.messages.basename=i18n.login
  * i18n是类路径起的文件夹名，login是basename
  *
- * @Beanpublic MessageSource messageSource(MessageSourceProperties properties) {
+ * @Bean
+ * public MessageSource messageSource(MessageSourceProperties properties) {
  *
  * ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
  * if (StringUtils.hasText(properties.getBasename())) {
@@ -429,6 +430,62 @@ public class Springboot04WebRestfulcrudApplication {
  * 参考file:///E:/java-pro/%E6%96%87%E6%A1%A3/usingthymeleaf.pdf
  * 4.1小节的内容
  * #{}获取国际化值的
+ *
+ * LocaleResolver接口是用来做 当前语言-国家的解析器，依然位于WebMvcAutoConfiguration中
+ * 伪代码；
+ *
+ * @Bean
+ *    @ConditionalOnMissingBean(
+ *        name = {"localeResolver"}
+ *    )
+ *    public LocaleResolver localeResolver() {
+ *        if (this.webProperties.getLocaleResolver() == org.springframework.boot.autoconfigure.web.WebProperties.LocaleResolver.FIXED) {
+ *            return new FixedLocaleResolver(this.webProperties.getLocale());
+ *        } else {
+ *            AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
+ *           localeResolver.setDefaultLocale(this.webProperties.getLocale());
+ *           return localeResolver;
+ *       }
+ *   }
+ *
+ * 以上是spring boot为我们自动配置的localeResolver组件
+ * 我们自己写一个同名的Bean,覆盖掉它（MyMvcConfig配置类中的方法必须是localeResolver,才能覆盖掉spring boot自动的）
+ * 参考文档：
+ * https://www.jianshu.com/p/1bfcafb3dd12
+ *
+ * 4.点击 中文 或者English 切换中文/英文登录页面
+ *
+ * 三、登录界面和拦截器
+ * 3.1 在开发期间先禁止thymeleaf模板引擎的缓存，以使得对前端页面的更改立即生效，更便于调试
+ * 3.2  登录失败和成功的处理
+ * 3.2.1 登录失败，逻辑上要重新返回到登录页面login,这在LoginController类的登录失败中处理
+ * 同时，为了更直观的看到登录失败提示，在LoginController类的home方法，设置了第三个参数map,在thymeleaf模板中
+ * 使用${msg}拿到值，显示在p标签上
+ * 这个p标签一开始没有，登录失败，才会在dom中添加p标签，使用th:if(优先级3) th:text（优先级7），th:if满足条件了p才显示【登录失败文本】
+ *
+ * 在thymeleaf文档的 （4.standard Expressions syntax）
+ * Expression utility object，其中有#strings工具对象
+ *
+ * 在thymeleaf文档的（ 20.Appendix C: Markup Selector Syntax）
+ * 有#strings的用法
+ * <p th:text="${msg}" th:if="not #strings.isEmpty(msg)"></p>
+ *
+ * 3.2.2 登录成功
+ * 为防止表单重复提交，最好使用重定向的方式(使用重定向后，地址栏地址改变了，这是我们期望的，/user/login 变成了 /main.html)
+ * return "redirect:/main.html"
+ *
+ * bug:但是我们在其他浏览器中，粘贴http://localhost:8080/crud/main.html，能看到登录后的页面，这是不符合程序安全原则的
+ * 解决：使用拦截器来进行登录检查
+ *
+ * 在LoginController，登录成功逻辑中，使用session添加一个信息
+ *
+ *
+ *
+ *
+ *
+ *"
+ *
+ *
  *
  *
  *

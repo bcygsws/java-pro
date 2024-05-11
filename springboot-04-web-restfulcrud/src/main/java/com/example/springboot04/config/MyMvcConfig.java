@@ -1,14 +1,12 @@
 package com.example.springboot04.config;
 
+import com.example.springboot04.component.LoginHandlerInterceptor;
 import com.example.springboot04.component.MyLocaleResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.*;
 
 /**
  * @className: MyMvcConfig
@@ -44,7 +42,9 @@ public class MyMvcConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// /atguigu路径中，没有添加数据，所有跳转到了success.html页面，但是没有填充数据
 		registry.addViewController("/atguigu").setViewName("success");
+
 	}
+
 
 	// 添加一个组件webMvcConfigurer,来控制程序的默认访问到login.html(/、/login.html路径，都访问到templates中的登录页面)
 	@Bean
@@ -56,6 +56,8 @@ public class MyMvcConfig implements WebMvcConfigurer {
 			public void addViewControllers(ViewControllerRegistry registry) {
 				registry.addViewController("/").setViewName("login");
 				registry.addViewController("/login.html").setViewName("login");
+				// 再加一个视图映射，/main.html映射到dashboard.html
+				registry.addViewController("/main.html").setViewName("dashboard");
 
 			}
 		};
@@ -68,6 +70,12 @@ public class MyMvcConfig implements WebMvcConfigurer {
 	@Bean
 	public LocaleResolver localeResolver() {
 		return new MyLocaleResolver();
+	}
+
+	// addInterceptors()方法，用于注册拦截器的
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.html", "/user/login");
 	}
 
 }
