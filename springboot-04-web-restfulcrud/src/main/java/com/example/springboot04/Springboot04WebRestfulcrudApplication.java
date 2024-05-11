@@ -479,6 +479,36 @@ public class Springboot04WebRestfulcrudApplication {
  *
  * 在LoginController，登录成功逻辑中，使用session添加一个信息
  *
+ * 四、crud员工列表
+ * 增 查 该 删 员工信息
+ * 4.1 restful风格的crud
+ * restful风格：
+ * URI /资源名称/资源标识， 再通过请求方式的不同区分对资源的crud的操作
+ *
+ *              普通crud和restful crud的区别
+ * action          普通crud                restful crud
+ * 增加       addEmp                   emp---post
+ * 查询       getEmp                   emp---get
+ * 更改       updateEmp                emp/{id}---put
+ * 删除       deleteEmp                emp/{id}---delete
+ *
+ *
+ * 4.2 CRUD的请求架构
+ *                                        URI(统一资源识别符)            请求方式method
+ * 查询所有员工信息                             emps                           get
+ * 查询某个员工（到修改某个员工信心页面）         emp/{id}                      get
+ * 来到添加页面                                  emp                           get
+ * 添加员工                                      emp                           post
+ * 来到修改页面（要修改信息回显）                 emp/{id}                       get
+ * 修改某个员工信息                               emp                           put
+ * 删除员工                                       emp/{id}                      delete
+ *
+ * 4.3 员工列表
+ * 
+ *
+ *
+ *
+ *
  *
  *
  *
