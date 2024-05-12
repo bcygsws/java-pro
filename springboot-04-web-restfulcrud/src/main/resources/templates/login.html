@@ -9,10 +9,10 @@
 	<!-- Bootstrap core CSS -->
 	<!--webjars方式可以引入静态资源，www.webjars.org官网；试着使用webjars方法，在pom文件中导入bootstrap的依赖	-->
 	<!--<link href="./asserts/css/bootstrap.min.css" rel="stylesheet">-->
-	<link href="./asserts/css/bootstrap.min.css" rel="stylesheet"
+	<link href="asserts/css/bootstrap.min.css" rel="stylesheet"
 	      th:href="@{/webjars/bootstrap/4.0.0/dist/css/bootstrap.css}">
 	<!-- Custom styles for this template -->
-	<link href="./asserts/css/signin.css" rel="stylesheet" th:href="@{/asserts/css/signin.css}">
+	<link href="asserts/css/signin.css" rel="stylesheet" th:href="@{/asserts/css/signin.css}">
 </head>
 
 <body class="text-center">
@@ -21,7 +21,7 @@
 	     th:src="@{/asserts/img/bootstrap-solid.svg}" width="72">
 	<h1 class="h3 mb-3 font-weight-normal" th:text="#{login.tip}">Please sign in</h1>
 	<!--动态显示的p标签，提供登录失败后反馈的信息,th:if 优先级3，th:text优先级7	-->
-	<p th:if="${not #strings.isEmpty(msg)}" th:text="${msg}"></p>
+	<p class="dyn_p" th:class="dyn_p" th:if="${not #strings.isEmpty(msg)}" th:style="'color:red'">[[ ${msg} ]]</p>
 	<label class="sr-only" for="user" th:text="#{login.username}">Username</label>
 	<input autocomplete="off" autofocus="" class="form-control" id="user" name="username" placeholder="Username"
 	       required=""

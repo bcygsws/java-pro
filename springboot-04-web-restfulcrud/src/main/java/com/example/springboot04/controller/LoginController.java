@@ -42,7 +42,7 @@ public class LoginController {
 			// 为了防止表单重复提交，最好的方法是，使用重定向（登录成功，重定向；好处：地址栏也变成了/main.html）；先重定向到main.html--->映射到dashbord.html
 			return "redirect:/main.html";
 		} else {// 登录失败了，还应该重写回到登录界面，以再次输入正确的用户名和密码
-			map.put("msg", "用户名或密码错误，请重新登录！");
+			map.put("msg", "用户名或者密码错误！");
 			return "login";
 		}
 	}

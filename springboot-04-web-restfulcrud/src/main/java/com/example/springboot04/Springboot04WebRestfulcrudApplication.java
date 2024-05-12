@@ -504,7 +504,62 @@ public class Springboot04WebRestfulcrudApplication {
  * 删除员工                                       emp/{id}                      delete
  *
  * 4.3 员工列表
- * 
+ * thymeleaf公共代码片段抽取
+ * 在dashboard.html页面中抽取
+ *
+ * 4.3.1 抽取公共代码片段 th:fragment="topbar"  级别8
+ * 在其他页面引用，这个代码片段
+ * 语法，注意选择器和片段名的用法区别：
+ * th:insert="~{模板名:选择器名}"
+ * th:insert="~{模板名::片段名}"
+ *
+ * 4.3.2 引用代码片段
+ * th:fragment="topbar"
+ * th:insert="~{dashboard :: topbar}" 或者 th:insert="dashboard :: topbar"
+ * 或者使用选择器方式(侧边栏使用选择器方式抽取)
+ * id="sidebar"
+ * th:replace="~{dashboard::#sidebar}"
+ *
+ * bug:使用th:insert无端为list中公共部分额外引入了一对div标签，有可能对这段公共片段的样式有影响，如何解决？
+ * 引入代码片段的三种th:含义
+ * th:insert插入，直接将公共片段插入div中了，<div th:insert="~{dashboard :: topbar}"></div>
+ * th:replace替换，不会生成额外的div标签 <div th:replace="~{dashboard :: topbar}"></div>
+ * th:include 包含，相当于抽取时，把nav这段根标签去掉，把里面的内容包含进来；<div th:insert="~{dashboard :: topbar}"></div>
+ * 显然，使用th:replace更符合要求
+ *
+ * 4.4 链接高亮
+ * P38,5:07  https://www.bilibili.com/video/BV1Et411Y7tQ/?p=38&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
+ *
+ * DAO三层
+ * entity/pojo 实体层，POJO(plain ordinary java object简单java对象)，简单的实体类（getter/setter便于读写）
+ * utils工具
+ * dao层，也叫映射（mapper）层,也叫数据访问层，持久层，是和数据打交道的（DAO,是data access objects）
+ * biz/service层，业务逻辑层（biz,美国俚语等于business，业务的意思）
+ * MVC三层
+ * MVC是一种架构
+ * M 模型层，model(java bean)
+ * V 视图层，view
+ * C 控制器，controller
+ *
+ * mvc+dao开发，纵向开发
+ * 数据库
+ * DAO
+ * biz
+ * controller
+ * UI
+ * spring要管理控制器、业务逻辑和数据访问，对应三个注解、
+ *
+ * 控制器，@Controller，web层
+ * 业务逻辑biz，@Service，service层，负责整合映射层mapper,供外界调用
+ * 管理数据访问， @Repository,DAO层
+ * java bean @Component
+ * 关于Controller，Service，Dao三层架构的理解以及Mybatis的关系
+ * 参考文档：https://blog.csdn.net/weixin_48312926/article/details/125022959
+ *
+ *
+ *
+ *
+ *
  *
  *
  *
