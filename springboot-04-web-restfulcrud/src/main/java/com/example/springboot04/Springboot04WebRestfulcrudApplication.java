@@ -556,6 +556,137 @@ public class Springboot04WebRestfulcrudApplication {
  * 关于Controller，Service，Dao三层架构的理解以及Mybatis的关系
  * 参考文档：https://blog.csdn.net/weixin_48312926/article/details/125022959
  *
+ * 五、错误处理的原理&定制错误页面
+ * 5.1 spring boot错误异常
+ * 在浏览器中，弹出一个页面，里面包含错误原因和状态码
+ * 在客户端，比如postman，会返回一个json对象，展示错误信息
+ *
+ * 5.2 spring boot的错误处理自动配置类,ErrorMvcAutoConfiguration
+ *
+ * 原理
+ * ErrorPageCustomizer
+ * BasicErrorController
+ * DefaultErrorViewResolver
+ * DefaultErrorAttributes  帮我们共享信息 timestamp时间戳 status状态码 error错误提示   exception异常 message异常消息  errors(JSR303数据校验的错误)
+ * 步骤：
+ * 一旦系统报4xx,5xx的错误，ErrorPageCustomizer就会生效（定制错误的响应规则）；然后/error错误请求，就会交给控制器
+ * BasicErrorController处理;
+ * 1）响应页面,去哪个页面，有DefaultErrorViewResolver得到
+ * DefaultErrorViewResolver类中resolve方法负责处理（如果模板引擎可用，用模板引擎；如果不可用this.resolveResource(errorViewName, model)处理，
+ * 会去static下寻找）
+ *
+ * a.有模板引擎的情况：
+ * DefaultErrorAttributes  帮我们共享信息
+ * timestamp时间戳
+ * status状态码
+ * error错误提示
+ * exception异常
+ * message异常消息
+ * errors(JSR303数据校验的错误)
+ *
+ * b.没有模板引擎的情况（就是templates/下没有4xx.html页面），例如：将templates/模板引擎文件夹下的/error整个文件夹，移动到static/下，
+ * 错误页面4xx.html/404.html也是可以用的，只不过放到静态资源文件夹下，一些动态数据就无法解析了（比如：${timestamp}、#{status}等等）
+ *
+ * c.以上都没有(templates/和static/下都没有)，就是我们在没有配置错误页面前的 默认空白页面
+ *
+ *
+ *
+ * 参考伪代码；
+ * private ModelAndView resolve(String viewName, Map<String, Object> model) {
+ *        String errorViewName = "error/" + viewName;
+ *         TemplateAvailabilityProvider provider = this.templateAvailabilityProviders.getProvider(errorViewName, this.applicationContext);
+ *          return provider != null ? new ModelAndView(errorViewName, model) : this.resolveResource(errorViewName, model);
+ *   }
+ *
+ * 2）响应客户端，返回包含错误信息的json数据
+ *
+ *
+ *
+ * 5.2.1 一旦系统报4xx(客户端错误),5xx的错误（服务端错误），ErrorPageCustomizer就会生效（定制错误的响应规则）；
+ * 伪代码
+ * @Value("${error.path:/error}")
+ * private String path = "/error";
+ *
+ * 5.2.2 BasicErrorController
+ * BasicErrorController是一个controller,用于处理/error请求的;
+ * 有两种方式：
+ * 一种响应页面，text/html
+ * 一种是客户端响应json数据
+ *
+ *  @Bean
+ *  @ConditionalOnMissingBean(
+ *      value = {ErrorController.class},
+ *      search = SearchStrategy.CURRENT
+ *    )
+ *  public BasicErrorController basicErrorController(ErrorAttributes errorAttributes, ObjectProvider<ErrorViewResolver> errorViewResolvers) {
+ *           return new BasicErrorController(errorAttributes, this.serverProperties.getError(), (List)errorViewResolvers.orderedStream().collect(Collectors.toList()));
+ *    }
+ *
+ *
+ *  @RequestMapping(
+ *       produces = {"text/html"}    // 处理浏览器text/html，浏览器请求头中Request Headers，Accept 中text/html
+ * )
+ * public ModelAndView errorHtml(HttpServletRequest request, HttpServletResponse response) {
+ *     HttpStatus status = this.getStatus(request);
+ *     Map<String, Object> model = Collections.unmodifiableMap(this.getErrorAttributes(request, this.getErrorAttributeOptions(request, MediaType.TEXT_HTML)));
+ *     response.setStatus(status.value());
+ *     ModelAndView modelAndView = this.resolveErrorView(request, response, status, model);
+ *     return modelAndView != null ? modelAndView : new ModelAndView("error", model);
+ * }
+ *
+ *  @RequestMapping                      // 处理客户端，显示json数据;客户端的请求头中Accept中，是(星斜杠星)
+ *  public ResponseEntity<Map<String, Object>> error(HttpServletRequest request) {
+ *    HttpStatus status = this.getStatus(request);
+ *       if (status == HttpStatus.NO_CONTENT) {
+ *       return new ResponseEntity(status);
+ *   } else {
+ *           Map<String, Object> body = this.getErrorAttributes(request, this.getErrorAttributeOptions(request, MediaType.ALL));  这里的ALL有x/x
+ *       return new ResponseEntity(body, status);
+ *   }
+ * }
+ *
+ *
+ * 5.2.3 DefaultErrorViewResolver负责处理用户要得到的错误页面
+ * 1）响应页面,去哪个页面，有DefaultErrorViewResolver得到
+ * DefaultErrorViewResolver类中resolve方法负责处理（如果模板引擎可用，用模板引擎；如果不可用this.resolveResource(errorViewName, model)处理，
+ * 会去static下寻找）
+ *
+ * 5.2.4 DefaultErrorAttributes:帮我们共享信息
+ * DefaultErrorAttributes类中的，有多个重载的getErrorAttributes方法
+ *  timestamp时间戳
+ *  tatus状态码
+ *  error错误提示
+ *  exception异常
+ *  message异常消息
+ *  errors(JSR303数据校验的错误)
+ *
+ *
+ * 伪代码：
+ * private Map<String, Object> getErrorAttributes(WebRequest webRequest, boolean includeStackTrace) {
+ *         Map<String, Object> errorAttributes = new LinkedHashMap();
+ *         errorAttributes.put("timestamp", new Date());
+ *         this.addStatus(errorAttributes, webRequest);
+ *          this.addErrorDetails(errorAttributes, webRequest, includeStackTrace);
+ *          this.addPath(errorAttributes, webRequest);
+ *           return errorAttributes;
+ *   }
+ *
+ *
+ *  如何定制错误响应？
+ * a.如何定制错误页面
+ * 有模板引擎的情况下，error/404.html  error下的状态码（实验：在templates下新建error文件夹，把404.html页面放进去，发送错误请求，
+ * 看返回是不是这404.html?）
+ * 答：项目重启后，发送错误请求时，可以使用这个404.html；
+ * 总结错误页面的规则：以错误状态码为名字,.html为后缀的文件，放在templates/ 下error文件夹下
+ *
+ * 错误状态码4开头的很多，每一个都按照上面规则配置一个错误页面，不现实；我们可以为其配置一个4xx.html（或者5xx.html）
+ * 如果发生404错误，error/下有404.html页面（原则：精确优先）；如果没有这个页面，就统一使用4xx.html(比如：添加员工信息，
+ * 生日日期不按照配置文件中的格式2012-12-12，而输入字符串"afgqaghb"，就会报400错误，检查error/没有400.html页面，就统一使用4xx.html页面)
+ *
+ *
+ *
+ *
+ * b.如何定制错误的json数据
  *
  *
  *
@@ -568,7 +699,6 @@ public class Springboot04WebRestfulcrudApplication {
  *
  *
  *
- *"
  *
  *
  *
