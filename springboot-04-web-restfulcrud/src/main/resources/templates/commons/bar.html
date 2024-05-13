@@ -21,7 +21,7 @@
 		<ul class="nav flex-column">
 			<li class="nav-item">
 				<!--参数化的fragment来实现，th:class="${activeURI==}" ，写一个判断条件，控制有无active类样式-->
-				<a class="nav-link active" href="#" th:class="${activeURI=='main.html'?'nav-link active':'nav-link'}"
+				<a class="nav-link active" href="#" th:class="${activeURI=='main.html'}?'nav-link active':'nav-link'"
 				   th:href="@{/main.html}">
 					<svg class="feather feather-home" fill="none" height="24" stroke="currentColor"
 					     stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24"

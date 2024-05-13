@@ -8,13 +8,12 @@
 	<meta content="" name="description">
 	<meta content="" name="author">
 
-	<title>Dashboard Template for Bootstrap</title>
+	<title>添加员工/修改员工复用页面</title>
 	<!-- Bootstrap core CSS -->
-	<link href="asserts/css/bootstrap.min.css" rel="stylesheet"
+	<link rel="stylesheet"
 	      th:href="@{/webjars/bootstrap/4.0.0/dist/css/bootstrap.css}">
-
 	<!-- Custom styles for this template -->
-	<link href="asserts/css/dashboard.css" rel="stylesheet" th:href="@{/asserts/css/dashbord.css}">
+	<link rel="stylesheet" th:href="@{/asserts/css/dashboard.css}">
 	<style type="text/css">
         /* Chart.js */
 
@@ -55,24 +54,32 @@
 			<!--添加员工后，提交，action仍然是/emp请求，但请求方式已经变成post-->
 			<!--表单中的name属性，必须有，且和Employee类中的成员属性一致，下拉框中写name值写成 department.id-->
 			<form method="post" th:action="@{/emp}">
+				<!--表单，只支持发get和post请求，但是数据回显表单后，我们需要发put请求提交【修改员工】的信息，如何处理？
+				思路：
+				1.spring mvc中，需要配置HiddenHttpMethodFilter(在spring boot中，已经自动配置好了)
+				2.页面创建一个post表单（目前表单正好是post）
+				3.创建一个type为隐藏域的input项，其name属性值根据上述思路，name="_method",value值中写我们指定的请求方式，此处用put -->
+				<input name="_method" th:if="${modEmp!=null}" type="hidden" value="put"/>
+				<!--完成上述步骤后，并没有提交被修改的员工id,导致每次put时，EmployeeDao中save方法中走了自增initId那个分支-->
+				<input name="id" th:if="${modEmp!=null}" th:value="${modEmp.id}" type="hidden"/>
 				<!--lastName-->
 				<div class="form-group">
 					<label for="exampleFormControlInput1">LastName</label>
 					<input class="form-control" id="exampleFormControlInput1" name="lastName"
-					       placeholder="请输入lastName" th:value="${modEmp!=null?modEmp.lastName:null}" type="text">
+					       placeholder="请输入lastName" th:value="${modEmp!=null}?${modEmp.lastName}" type="text">
 				</div>
 				<!--Email-->
 				<div class="form-group">
 					<label for="exampleFormControlInput2">Email address</label>
 					<input class="form-control" id="exampleFormControlInput2" name="email"
-					       placeholder="name@example.com" th:value="${modEmp!=null?modEmp.email:null}" type="email">
+					       placeholder="name@example.com" th:value="${modEmp!=null}?${modEmp.email}" type="email">
 				</div>
 				<!--Gender-->
 				<div class="form-group">
 					<label>Gender</label><br/>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" id="gridRadios1" name="gender"
-						       th:checked="${modEmp.gender==1}" type="radio"
+						       th:checked="${modEmp!=null}?${modEmp.gender==1}" type="radio"
 						       value="1">
 						<label class="form-check-label" for="gridRadios1">
 							男
@@ -80,7 +87,7 @@
 					</div>
 					<div class="form-check form-check-inline">
 						<input class="form-check-input" id="gridRadios2" name="gender"
-						       th:checked="${modEmp.gender==0}" type="radio" value="0">
+						       th:checked="${modEmp!=null}?${modEmp.gender==0}" type="radio" value="0">
 						<label class="form-check-label" for="gridRadios2">
 							女
 						</label>
@@ -91,19 +98,20 @@
 					<label for="exampleFormControlSelect3">Department</label>
 					<select class="form-control" id="exampleFormControlSelect3" name="department.id">
 						<!--这里的部门，应该是从员工表中查出来，渲染在列表项上的-->
-						<option th:each="dept:${depts}" th:selected="${modEmp.department.id==dept.id}"
+						<option th:each="dept:${depts}" th:selected="${modEmp!=null}?${dept.id==modEmp.department.id}"
 						        th:text="${dept.departmentName}"
-						        th:value="${dept.id}"></option>
+						        th:value="${dept.id}">1
+						</option>
 					</select>
 				</div>
 				<div class="form-group">
 					<label for="exampleFormControlInput4">Birth</label>
 					<input class="form-control" id="exampleFormControlInput4" name="birth" placeholder="请输入出生日期"
-					       th:value="${modEmp.birth}?${#dates.format(modEmp.birth,'yyyy-MM-dd HH:mm:ss')}:null"
+					       th:value="${modEmp!=null}?${#dates.format(modEmp.birth,'yyyy-MM-dd HH:mm:ss')}"
 					       type="text">
 				</div>
 				<!--提交添加type="submit"-->
-				<button class="btn btn-primary" type="submit">提交</button>
+				<button class="btn btn-primary" th:text="${modEmp!=null}?'修改':'提交'" type="submit">提交</button>
 			</form>
 		</main>
 	</div>
@@ -112,18 +120,19 @@
 <!-- Bootstrap core JavaScript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="asserts/js/jquery-3.2.1.slim.min.js" type="text/javascript"></script>
-<script src="asserts/js/popper.min.js" type="text/javascript"></script>
-<script src="asserts/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="asserts/js/jquery-3.2.1.slim.min.js" th:src="@{/asserts/js/jquery-3.2.1.slim.min.js}"
+        type="text/javascript"></script>
+<script src="asserts/js/popper.min.js" th:src="@{/asserts/js/popper.min.js}" type="text/javascript"></script>
+<script src="asserts/js/bootstrap.min.js" th:src="@{/asserts/js/bootstrap.min.js}" type="text/javascript"></script>
 
 <!-- Icons -->
-<script src="asserts/js/feather.min.js" type="text/javascript"></script>
+<script src="asserts/js/feather.min.js" th:src="@{/asserts/js/feather.min.js}" type="text/javascript"></script>
 <script>
-    feather.replace()
+    feather.replace();
 </script>
 
 <!-- Graphs -->
-<script src="asserts/js/Chart.min.js" type="text/javascript"></script>
+<script src="asserts/js/Chart.min.js" th:src="@{/asserts/js/Chart.min.js}" type="text/javascript"></script>
 <script>
     var ctx = document.getElementById("myChart");
     var myChart = new Chart(ctx, {

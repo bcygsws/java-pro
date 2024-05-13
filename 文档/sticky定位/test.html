@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport"
+	      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>position定位，关于sticky定位，粘贴性定位元素</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+        body,html,.box {
+            width: 100%;
+            height: 100%;
+        }
+        .box {
+            font-size: 20px;
+            overflow: auto;
+            display: flex;
+        }
+        .left {
+            width: 200px;
+            position: sticky;
+            top: -320px;
+        }
+        .left-box {
+            width: 200px;
+            height: 300px;
+            background-color: #ccc;
+            margin-bottom: 20px;
+        }
+        .right {
+            margin-left: 20px;
+            flex: 1;
+        }
+        .right-box {
+            width: 100%;
+            height: 300px;
+            margin-bottom: 20px;
+            background-color: forestgreen;
+        }
+	</style>
+</head>
+<body>
+<script type="text/javascript">
+	/*
+	*
+	* 粘贴性定位元素sticky
+	* 参考文档：
+	* https://blog.csdn.net/weixin_44384273/article/details/136168700?spm=1001.2101.3001.6650.3&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7EYuanLiJiHua%7EPosition-3-136168700-blog-130714048.235%5Ev43%5Econtrol&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7EYuanLiJiHua%7EPosition-3-136168700-blog-130714048.235%5Ev43%5Econtrol&utm_relevant_index=6
+	*
+	* sticky 像相对定位relative和固定定位fixed的结合体
+	* sticky生效条件：
+	* 1.必须指定top bottom left right四者中的一个
+	* 2.必须在父元素中生效
+	* 例如：页面滚动到左侧.left-box 2号盒子，开始停止滚动粘贴在页面上，跟固定定位一样
+	* 但粘贴性定位的设置，需要在.left-box盒子的父盒子中设置
+	*
+	* **/
+</script>
+<div class="box">
+	<div class="left">
+		<div class="left-box">1</div>
+		<div class="left-box">2</div>
+		<div class="left-box">3</div>
+		<div class="left-box">4</div>
+	</div>
+	<div class="right">
+		<div class="right-box">1</div>
+		<div class="right-box">2</div>
+		<div class="right-box">3</div>
+		<div class="right-box">4</div>
+		<div class="right-box">5</div>
+		<div class="right-box">6</div>
+		<div class="right-box">7</div>
+		<div class="right-box">8</div>
+		<div class="right-box">9</div>
+		<div class="right-box">10</div>
+		<div class="right-box">11</div>
+		<div class="right-box">12</div>
+	</div>
+</div>
+</body>
+</html>
+
+</body>
+</html>

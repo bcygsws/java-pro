@@ -7,10 +7,7 @@ import com.example.springboot04.entities.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
@@ -90,13 +87,32 @@ public class EmpController {
 		return "redirect:/emps";
 	}
 
-	// 修改员工信息，先回显数据，复用add.html就可以
+	// 修改员工信息，先回显数据，复用add.html页面
 	@GetMapping("/emp/{empId}")
 	public String toModifyPage(@PathVariable("empId") Integer empId, Model model) {
 		// @PathVariable获取empId值，表示要修改的那个item的empId值
 		Employee employee = employeeDao.get(empId);
 		model.addAttribute("modEmp", employee);
+		// 同时，也要处理部门下拉框中的选项渲染问题
+		Collection<Department> departments = departmentDao.getDepartments();
+		model.addAttribute("depts", departments);
 		return "emp/add";
+	}
+
+	// 注：修改员工信息后，点击“修改”按钮后，也跳转至列表页面list,并没有新增一条数据，这是一个put请求；不同于“添加员工”的提交，是post请求
+	@PutMapping("/emp")
+	public String doModify(Employee employee) {
+		System.out.println("保存的员工信息" + employee);
+		// 2.调用EmployeeDao中save方法保存
+		employeeDao.save(employee);
+		return "redirect:/emps";
+	}
+
+	// 删除某条员工信息
+	@DeleteMapping("/emp/{id}")
+	public String delEmp(@PathVariable Integer id) {
+		employeeDao.delete(id);
+		return "redirect:/emps";
 	}
 }
 

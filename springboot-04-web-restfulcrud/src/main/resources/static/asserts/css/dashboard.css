@@ -24,8 +24,10 @@ body {
 
 .sidebar-sticky {
     position: -webkit-sticky;
+    /*设定茨布局后，假设main中的内容高度，超出页面高度，当上下滚动时，侧边栏向上滚动48px后，就不在滚动了，像fixed那样，固定在这里*/
     position: sticky;
     top: 48px; /* Height of navbar */
+    /* 100vh 就是100view height,表示视窗高度*/
     height: calc(100vh - 48px);
     padding-top: .5rem;
     overflow-x: hidden;

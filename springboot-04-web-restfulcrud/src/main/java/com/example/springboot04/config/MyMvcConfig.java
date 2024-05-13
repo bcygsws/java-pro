@@ -75,7 +75,7 @@ public class MyMvcConfig implements WebMvcConfigurer {
 	// addInterceptors()方法，用于注册拦截器的
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.html", "/user/login", "/webjars/**", "/asserts/**", "/templates/**", "/emp/**");
+		registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.html", "/user/login", "/webjars/**", "/asserts/**");
 	}
 
 }
