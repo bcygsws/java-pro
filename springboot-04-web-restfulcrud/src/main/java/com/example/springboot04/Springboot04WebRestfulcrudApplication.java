@@ -564,9 +564,9 @@ public class Springboot04WebRestfulcrudApplication {
  * 5.2 spring boot的错误处理自动配置类,ErrorMvcAutoConfiguration
  *
  * 原理
- * ErrorPageCustomizer
- * BasicErrorController
- * DefaultErrorViewResolver
+ * ErrorPageCustomizer：一旦报4xx或者5xx错误，ErrorPageCustomizer就会生效，定制错误的响应规则；（customizer含义：定制应用程序）
+ * BasicErrorController：然后/error错误请求，就会交由BasicErrorController控制器处理
+ * DefaultErrorViewResolver：响应页面，去哪个页面，有DefaultErrorViewResolver得到
  * DefaultErrorAttributes  帮我们共享信息 timestamp时间戳 status状态码 error错误提示   exception异常 message异常消息  errors(JSR303数据校验的错误)
  * 步骤：
  * 一旦系统报4xx,5xx的错误，ErrorPageCustomizer就会生效（定制错误的响应规则）；然后/error错误请求，就会交给控制器
@@ -588,6 +588,9 @@ public class Springboot04WebRestfulcrudApplication {
  * 错误页面4xx.html/404.html也是可以用的，只不过放到静态资源文件夹下，一些动态数据就无法解析了（比如：${timestamp}、#{status}等等）
  *
  * c.以上都没有(templates/和static/下都没有)，就是我们在没有配置错误页面前的 默认空白页面
+ *
+ * 2）响应客户端请求，定制json数据
+ * 视频链接：https://www.bilibili.com/video/BV1Et411Y7tQ?p=44&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
  *
  *
  *
