@@ -561,13 +561,16 @@ public class Springboot04WebRestfulcrudApplication {
  * 在浏览器中，弹出一个页面，里面包含错误原因和状态码
  * 在客户端，比如postman，会返回一个json对象，展示错误信息
  *
+ * 测试：异常处理时，注释掉config/MyMvcConfig类中的addInterceptors()方法中的代码
+ * 原因：使用postman 和 ApiFox等第三方客户端测试时，脱离了浏览器，这些异常将会被拦截
+ *
  * 5.2 spring boot的错误处理自动配置类,ErrorMvcAutoConfiguration
  *
  * 原理
  * ErrorPageCustomizer：一旦报4xx或者5xx错误，ErrorPageCustomizer就会生效，定制错误的响应规则；（customizer含义：定制应用程序）
- * BasicErrorController：然后/error错误请求，就会交由BasicErrorController控制器处理
+ * BasicErrorController：然后/error错误请求，就会交由BasicErrorController控制器处理(包含errorHtml()和error()两个方法)
  * DefaultErrorViewResolver：响应页面，去哪个页面，有DefaultErrorViewResolver得到
- * DefaultErrorAttributes  帮我们共享信息 timestamp时间戳 status状态码 error错误提示   exception异常 message异常消息  errors(JSR303数据校验的错误)
+ * DefaultErrorAttributes  帮我们共享信息;timestamp时间戳、status状态码、error错误提示、exception异常、message异常消息、errors(JSR303数据校验的错误)
  * 步骤：
  * 一旦系统报4xx,5xx的错误，ErrorPageCustomizer就会生效（定制错误的响应规则）；然后/error错误请求，就会交给控制器
  * BasicErrorController处理;
@@ -580,8 +583,8 @@ public class Springboot04WebRestfulcrudApplication {
  * timestamp时间戳
  * status状态码
  * error错误提示
- * exception异常
- * message异常消息
+ * exception异常，  4xx.html或者5xx.html中不显示exception或者message,需要在配置文件中配置server.error.include-exception=true 和 server.error.include-message=always
+ * message异常消息，4xx.html或者5xx.html中不显示exception或者message,需要在配置文件中配置server.error.include-exception=true 和 server.error.include-message=always
  * errors(JSR303数据校验的错误)
  *
  * b.没有模板引擎的情况（就是templates/下没有4xx.html页面），例如：将templates/模板引擎文件夹下的/error整个文件夹，移动到static/下，
@@ -657,7 +660,7 @@ public class Springboot04WebRestfulcrudApplication {
  * 5.2.4 DefaultErrorAttributes:帮我们共享信息
  * DefaultErrorAttributes类中的，有多个重载的getErrorAttributes方法
  *  timestamp时间戳
- *  tatus状态码
+ *  status状态码
  *  error错误提示
  *  exception异常
  *  message异常消息
@@ -690,18 +693,28 @@ public class Springboot04WebRestfulcrudApplication {
  *
  *
  * b.如何定制错误的json数据
+ * 1.在controller/文件夹下，新建MyExceptionHandler类
+ * 类注解：@ControllerAdvice
+ * 方法注解：@ExceptionHandler
  *
+ * 伪代码：
+ * @ControllerAdvice
+ * public class MyExceptionHandler {
+ *	// 响应到页面或客户端中,添加@ResponseBody注解
+ *	@ResponseBody
+ *	@ExceptionHandler(UserNotExistException.class)
+ *	public Map<String, Object> handleException(Exception e) {
+ *		Map<String, Object> map = new HashMap<>();
+ *		map.put("code", "user.notexist");
+ *		map.put("message", e.getMessage());// 异常信息，从参数e中拿到，e.getMessage()方法
+ *		return map;
+ *		// 	有@ResponseBody注解，返回map;直接在页面上响应一个json对象了，再也不是错误页面了
+ *	}
+ * }
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ * 但是，上面的方式不是自适应的
+ * 要实现：当异常出现时，在浏览器中返回异常页面（在配置好异常页面的前提下），而使用客户端时发送请求时，返回json数据
+ * 具体见类MyExceptionHandler注释
  *
  *
  *

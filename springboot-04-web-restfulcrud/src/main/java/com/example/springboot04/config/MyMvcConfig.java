@@ -72,10 +72,13 @@ public class MyMvcConfig implements WebMvcConfigurer {
 		return new MyLocaleResolver();
 	}
 
-	// addInterceptors()方法，用于注册拦截器的
-	@Override
-	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.html", "/user/login", "/webjars/**", "/asserts/**");
-	}
+	// 功能：addInterceptors()方法，用于注册拦截器的
+
+	// 在测试：定制异常页面和定制异常json时，注释掉下面拦截代码
+	// 原因：使用postman 和 ApiFox等第三方客户端测试时，脱离了浏览器，这些异常将会被拦截
+	// @Override
+	// public void addInterceptors(InterceptorRegistry registry) {
+	// 	registry.addInterceptor(new LoginHandlerInterceptor()).addPathPatterns("/**").excludePathPatterns("/", "/login.html", "/user/login", "/webjars/**", "/asserts/**");
+	// }
 
 }

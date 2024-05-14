@@ -4,11 +4,13 @@ import com.example.springboot04.dao.DepartmentDao;
 import com.example.springboot04.dao.EmployeeDao;
 import com.example.springboot04.entities.Department;
 import com.example.springboot04.entities.Employee;
+import com.example.springboot04.exception.UserNotExistException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.Collection;
 
 /**
@@ -113,6 +115,29 @@ public class EmpController {
 	public String delEmp(@PathVariable Integer id) {
 		employeeDao.delete(id);
 		return "redirect:/emps";
+	}
+
+	// 处理异常
+	// 访问：localhost:8080/crud/hel?user=aaa,抛出这个自定义异常
+	/*
+	 * 在main标签内容区显示以下异常
+	 * timestamp:Tue May 14 20:18:05 CST 2024
+	 * status:500
+	 * exception:com.example.springboot04.exception.UserNotExistException
+	 *  message:用户不存在
+	 *
+	 * 分析：其中message信息，就是自定义的，自己定制
+	 *
+	 * */
+	// 访问：localhost:8080/crud/hel?user=111,正常显示Hello World
+	@RequestMapping("/hel")
+	@ResponseBody
+	public String hel(@PathParam("user") String user) {
+		if (user.equals("aaa")) {
+			// 	抛出异常
+			throw new UserNotExistException("用户不存在");
+		}
+		return "Hello World";
 	}
 }
 
