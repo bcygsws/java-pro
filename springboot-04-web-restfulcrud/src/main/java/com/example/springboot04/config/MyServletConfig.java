@@ -28,6 +28,8 @@ import java.util.EventListener;
 public class MyServletConfig {
 	// 功能：注册Servlet三大组件
 	// 参考：SpringBoot系列教程web篇Servlet 注册的四种姿势，https://www.cnblogs.com/yihuihui/p/11925749.html
+
+	// 1.注册servlet
 	// 访问：http://localhost:8083/crud/my_servlet，就可以在页面中显示内容：show myServlet!
 	@Bean
 	public ServletRegistrationBean<Servlet> myServlet() {

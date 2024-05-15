@@ -804,7 +804,37 @@ public class Springboot04WebRestfulcrudApplication {
  * 在类路径下，新建servlet.MyServlet
  *
  * ServletContextListener,定义Listener,时需要实现的接口
- * (ContextServlet extends HttpServlet) + ServletContextInitializer,不常用的注册servlet的方式
+ *
+ * servlet注册的四种方式：
+ * 储备知识：
+ * @ServletComponentScan和@ComponentScan 注解
+ * 参考文档：https://blog.csdn.net/weixin_45433031/article/details/133863703
+ * 下面我们就言简意赅的介绍一下这两个注解的作用
+ * 一、 @ServletComponentScan
+ * 在SpringBootApplication上使用@ServletComponentScan注解后，Servlet、Filter、Listener可以直接通过@WebServlet、@WebFilter、@WebListener注解自动注册，无需其他代码。
+ * 二、 @ComponentScan
+ * Spring是一个依赖注入(dependency injection)框架。所有的内容都是关于bean的定义及其依赖关系。定义Spring Beans的第一步是使用正确的注解-@Component或@Service或@Repository.
+ * 但是，Spring不知道你定义了某个bean除非它知道从哪里可以找到这个bean.
+ * ComponentScan做的事情就是告诉Spring从哪里找到bean。
+ *
+ * 包扫描会扫描只要标注了@Controller,@Service,@Repository,@Component这四个注解都会被扫描到容器中。
+ * 1、@Controller 控制器（注入服务）
+ * 用于标注控制层，相当于struts中的action层
+ * 2、@Service 服务（注入dao）
+ * 用于标注服务层，主要用来进行业务的逻辑处理
+ * 3、@Repository（实现dao访问）
+ * 用于标注数据访问层，也可以说用于标注数据访问组件，即DAO组件.
+ * 4、@Component （把普通pojo实例化到spring容器中，相当于配置文件中的<bean id="" class=""/>）泛指各种组件，就是说当我们的类不属于各种归类的时候（不属于@Controller、@Service等的时候），我们就可以使用@Component来标注这个类。
+ *
+ * servlet注册的四种方式，参考文档：https://www.cnblogs.com/yihuihui/p/11925749.html
+ * 方式一：常用的注册方式，使用@WebServlet注解直接注册，在主配置类中加@ServletComponentScan;不需要@Component注解
+ * @ServletComponentScan注解的作用：spring boot启动时，会扫描并注册所有注解@WebServlet、@WebFilter、@WebListener的类
+ *
+ * 方式二：常用的注册方式，ServletRegistrationBean的方式，不需要@Component注解
+ *
+ * 方式三：不常用的注册servlet的方式；ContextServlet extends HttpServlet + ServletContextInitializer，需要@Component注解
+ *
+ * 方式四：bean的方式，有坑；需要@Component注解
  *
  *
  *

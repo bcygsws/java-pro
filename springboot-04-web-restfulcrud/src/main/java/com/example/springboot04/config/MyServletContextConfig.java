@@ -11,7 +11,7 @@ import javax.servlet.ServletRegistration;
 
 /**
  * @className: MyServletContextConfig
- * @description:TODO
+ * @description: 【servlet注册方式三-使用ServletContext+ServletContextInitializer,不常用】
  * @author: Bao Chengyi
  * @date: 2024/5/15 23:29
  * @Version: 1.0
