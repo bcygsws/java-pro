@@ -2,11 +2,18 @@ package com.example.springboot04.config;
 
 import com.example.springboot04.component.LoginHandlerInterceptor;
 import com.example.springboot04.component.MyLocaleResolver;
+import org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration;
+import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
+import org.springframework.boot.web.server.*;
+import org.springframework.boot.web.servlet.server.ConfigurableServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.*;
+
+import java.net.InetAddress;
+import java.util.Set;
 
 /**
  * @className: MyMvcConfig

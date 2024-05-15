@@ -2,6 +2,7 @@ package com.example.springboot04;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.View;
@@ -9,6 +10,8 @@ import org.springframework.web.servlet.ViewResolver;
 
 import java.util.Locale;
 
+// 为了使得使用@WebServlet注解 注册servlet生效，当前自动启动类添加@ServletComponentScan注解
+@ServletComponentScan
 @SpringBootApplication
 public class Springboot04WebRestfulcrudApplication {
 
@@ -715,6 +718,96 @@ public class Springboot04WebRestfulcrudApplication {
  * 但是，上面的方式不是自适应的
  * 要实现：当异常出现时，在浏览器中返回异常页面（在配置好异常页面的前提下），而使用客户端时发送请求时，返回json数据
  * 具体见类MyExceptionHandler注释
+ *
+ * 六、配置嵌入式Servlet容器
+ * 参考文档：https://www.bilibili.com/video/BV1Et411Y7tQ/?p=45&vd_source=2806005ba784a40cae4906d632a64bd6
+ * 6.1 war包+外部配置的tomcat容器，可以通过修改tomcat中的server.xml和web.xml来修改配置
+ * 6.2 spring boot默认使用tomcat作为嵌入式servlet容器
+ *
+ * 问题1：那么如何修改和定制servlet容器呢？
+ * 方式1）修改和server（ServerProperties）有关的配置
+ * 一般是设置server.xxx.……=
+ *
+ * a.设置端口号
+ * server.port=8080
+ * b.设置项目路径，比如本项目设置成了/crud
+ * server.servlet.context-path=/crud
+ * c.设置tomcat的编码字符集
+ * server.servlet.encoding.charset=UTF-8
+ *
+ * 方式2)添加一个组件EmbeddedServletContainerCustomizer(已经被弃用)，spring boot2.x使用WebServerFactoryCustomizer接口取代它
+ * 伪代码：
+ * @Bean
+ *	public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> myWebServerFactoryCustomizer() {
+ *		// 接口需要实现后，才能实例化
+ *		return new WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>() {
+ *			@Override
+ *			public void customize(ConfigurableServletWebServerFactory factory) {
+ *				factory.setPort(8083);
+ *			}
+ *		};
+ *	}
+ * -----------------------
+ * 总结spring boot修改默认配置的方式？
+ * 1.spring boot在启用自动配置组件时，会先检查用户是否自己配置了（@Bean @Component），如果用户配置了，就优先使用用户自己配置的；如果用户
+ * 没有配置，才让自动配置生效；有些组件有多个viewResolver可以将用户和自动配置的连接起来
+ * 2.在Spring Boot中有非常多的xxxConfigure帮助我们扩展；例如：当前项目的MyMvcConfig实现了WebMvcConfigurer接口
+ * 视图映射addViewControllers
+ * 注册拦截器addInterceptors
+ * 另外为当前类注解了@Configuration，还可以方便的为spring boot容器添加组件
+ * 3.在spring boot中有非常多的xxxCustomizer帮助我们扩展；例如：当前项目中WebServerFactoryCustomizer<ConfigurableServletWebServerFactory>自己定制
+ * servlet容器的配置
+ * -------------------------
+ *
+ * 总结二
+ * 2.1 spring boot帮我们自动处理spring mvc时，自动注册spring mvc的前端控制器DispatcherServlet
+ * 查看DispatchServletAutoConfiguration自动配置类
+ * 伪代码：
+ *  @Bean(
+ *          name = {"dispatcherServletRegistration"}
+ *      )
+ *      @ConditionalOnBean(
+ *          value = {DispatcherServlet.class},
+ *          name = {"dispatcherServlet"}
+ *      )
+ *       public DispatcherServletRegistrationBean dispatcherServletRegistration(DispatcherServlet dispatcherServlet, WebMvcProperties webMvcProperties, ObjectProvider<MultipartConfigElement> multipartConfig) {
+ *           DispatcherServletRegistrationBean registration = new DispatcherServletRegistrationBean(dispatcherServlet, webMvcProperties.getServlet().getPath());
+ *           registration.setName("dispatcherServlet");
+ *           registration.setLoadOnStartup(webMvcProperties.getServlet().getLoadOnStartup());
+ *           multipartConfig.ifAvailable(registration::setMultipartConfig);
+ *           return registration;
+ *       }
+ *   }
+ *
+ * 伪代码：来自 .getServlet().getPatH()
+ * 2.2 默认拦截/的所有请求，包括静态资源，但是不会拦截jsp请求；/星 会拦截jsp
+ * 可以通过server.servletPath()来修改spring mvc前端控制器的请求路径
+ *
+ * public String getServletMapping() {
+ *          if (!this.path.equals("") && !this.path.equals("/")) {
+ *              return this.path.endsWith("/") ? this.path + "*" : this.path + "/*";
+ *          } else {
+ *              return "/";
+ *          }
+ *      }
+ *
+ *
+ *
+ * 问题2：spring boot支持其他servlet容器吗？
+ * 七、注册Servlet三大组件,注册Servlet Filter和Listener三大组件
+ * ServletRegistrationBean
+ * FilterRegistrationBean
+ * ServletListenerRegistrationBean
+ *
+ * 7.1 spring boot以jar包的形式，使用嵌入式tomcat
+ * 而我们正常的web应用，目录结构会有src/main/会有webapp/WEB-INF/web.xml,我们把三大组件可以注册在web.xml中
+ * 在类路径下，新建servlet.MyServlet
+ *
+ * ServletContextListener,定义Listener,时需要实现的接口
+ * (ContextServlet extends HttpServlet) + ServletContextInitializer,不常用的注册servlet的方式
+ *
+ *
+ *
  *
  *
  *
