@@ -872,7 +872,7 @@ public class Springboot04WebRestfulcrudApplication {
  * c.更高层次，自己创建Servlet容器的工厂）
  *
  * 9.2 为了支持jsp，我们使用外置的servlet容器（本地安装一个Tomcat）
- * 创建一个springboot-94-web-jsp项目，将spring boot项目稍加改造，添加webapp文件下，和web.xml
+ * 创建一个springboot-04-web-jsp项目，将spring boot项目稍加改造，添加webapp文件下，和web.xml
  *
  *
  * ---------------问题2 end-------------------
