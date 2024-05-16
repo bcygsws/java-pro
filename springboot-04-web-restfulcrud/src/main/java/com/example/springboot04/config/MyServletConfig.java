@@ -71,6 +71,7 @@ public class MyServletConfig {
 	// 泛型设置为ConfigurableServletWebServerFactory,以使用一系列的设置方法setXXX()
 	// 参考文档：https://blog.csdn.net/qq_43843951/article/details/108049897
 	// 重启项目后，控制台提示：“Tomcat started on port(s): 8083 (http) with context path '/crud'”，已经在8083端口启动了服务器
+	// 【重要】设置后，这里的8083端口将覆盖主配置文件中的server.port=8080
 	@Bean
 	public WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> myWebServerFactoryCustomizer() {
 		// 接口需要实现后，才能实例化

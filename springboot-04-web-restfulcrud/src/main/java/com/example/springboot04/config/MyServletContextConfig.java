@@ -20,6 +20,8 @@ import javax.servlet.ServletRegistration;
 *测试
 * 访问localhost:8083/crud/my_servlet1?name="abc"
 *
+* 实际上，方式二中的ServletRegistrationBean最终也是ServletContextInitializer接口的一个实现，方式二和方式三内部原理是一致的
+*
 *
 * */
 @Component
