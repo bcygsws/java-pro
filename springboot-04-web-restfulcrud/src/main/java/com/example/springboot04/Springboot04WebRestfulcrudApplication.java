@@ -854,10 +854,25 @@ public class Springboot04WebRestfulcrudApplication {
  *    <exclusion></exclusion>
  * </exclusions>
  *
+ * 八、嵌入式Servlet容器自动配置原理
+ * 查看EmbeddedWebServerFactoryCustomizerAutoConfiguration类
+ * 熟悉：WebServerFactoryCustomizer接口，我们用于配置Servlet容器（例子：参考config/MyServletConfig 类）
+ *
+ * UndertowWebServerFactoryCustomizerConfiguration
+ * JettyWebServerFactoryCustomizerConfiguration
+ * NettyWebServerFactoryCustomizerConfiguration
+ * TomcatWebServerFactoryCustomizerConfiguration
  *
  *
+ * 九、使用外部servlet
+ * spring boot默认的嵌入式servlet的优点：
+ * 9.1 优点：简单、便携
+ * 缺点：默认不支持jsp、优化定制比较复杂（a.使用配置文件，它是基于ServerProperties
+ * b.使用WebServerFactoryCustomizer,把这个类型的bean添加到容器中
+ * c.更高层次，自己创建Servlet容器的工厂）
  *
- *
+ * 9.2 为了支持jsp，我们使用外置的servlet容器（本地安装一个Tomcat）
+ * 创建一个springboot-94-web-jsp项目，将spring boot项目稍加改造，添加webapp文件下，和web.xml
  *
  *
  * ---------------问题2 end-------------------
