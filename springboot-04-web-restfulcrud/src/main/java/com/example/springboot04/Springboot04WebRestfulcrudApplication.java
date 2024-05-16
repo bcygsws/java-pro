@@ -724,7 +724,8 @@ public class Springboot04WebRestfulcrudApplication {
  * 6.1 war包+外部配置的tomcat容器，可以通过修改tomcat中的server.xml和web.xml来修改配置
  * 6.2 spring boot默认使用tomcat作为嵌入式servlet容器
  *
- * 问题1：那么如何修改和定制servlet容器呢？
+ *----------------问题1 start----------------
+ * 【问题1：那么如何修改和定制servlet容器呢？】
  * 方式1）修改和server（ServerProperties）有关的配置
  * 一般是设置server.xxx.……=
  *
@@ -793,7 +794,6 @@ public class Springboot04WebRestfulcrudApplication {
  *
  *
  *
- * 问题2：spring boot支持其他servlet容器吗？
  * 七、注册Servlet三大组件,注册Servlet Filter和Listener三大组件
  * ServletRegistrationBean
  * FilterRegistrationBean
@@ -835,6 +835,32 @@ public class Springboot04WebRestfulcrudApplication {
  * 方式三：不常用的注册servlet的方式；ContextServlet extends HttpServlet + ServletContextInitializer，需要@Component注解
  *
  * 方式四：bean的方式，有坑；需要@Component注解
+ *----------------问题1 end------------------
+ *
+ * ---------------问题2 start----------------
+ * 【问题2：Spring Boot支持其他Servlet容器吗？】
+ * 默认支持以下servlet容器
+ *  Tomcat,spring boot默认使用的
+ *  Jetty
+ *  Undertow(不支持JSP,是一个高性能非阻塞的servlet容器，并发性很好;但如果使用了jsp，就不要使用undertow)
+ *
+ * 支持其他servlet容器，默认可以切换Jetty和Undertow
+ * 切换步骤：
+ * 还是在pom文件中操作
+ * 1.先使用pom文件，生成可视化图，打开pom文件，右键，图表-可视化图
+ * 2.在可视化图中，可以清晰得得出依赖之间的关系；看到spring-boot-starter-tomcat依赖pom中的spring-boot-starter-web
+ * 3.需要在spring-boot-starter-web中排除掉spring-boot-starter-web
+ * <exclusions>
+ *    <exclusion></exclusion>
+ * </exclusions>
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * ---------------问题2 end-------------------
  *
  *
  *
