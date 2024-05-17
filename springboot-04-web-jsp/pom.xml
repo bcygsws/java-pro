@@ -23,6 +23,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<!-- 表示目标环境，已经提供了，打包时，就不必带上tomcat -->
 			<scope>provided</scope>
 		</dependency>
 		<dependency>

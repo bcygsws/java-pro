@@ -13,6 +13,6 @@
 <body>
 <h1>你好</h1>
 <%--发送一个/abc请求--%>
-<a href="abc">/abc请求,a默认是get请求</a>
+<a href="/abc">/abc请求,a默认是get请求</a>
 </body>
 </html>

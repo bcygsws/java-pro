@@ -15,8 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class HelloController {
 	//访问：http://localhost:8080/abc
 	@GetMapping("/abc")
-	public String doAbc(Model model) {
+	public String hello(Model model) {
 		model.addAttribute("msg", "你好啊~");
+		System.out.println("控制器处理/abc请求");
 		// 在jsp页面中，${msg}取值
 		// 在主配置文件使用spring.mvc.view.prefix和spring.mvc.view.suffix配置拼串的前缀和后缀
 		return "success";
