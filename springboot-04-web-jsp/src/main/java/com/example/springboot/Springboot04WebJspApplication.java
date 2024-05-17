@@ -26,10 +26,13 @@ public class Springboot04WebJspApplication {
  *       <scope>provided</scope>// 表示目标环境，已经提供了，打包时，就不必带上tomcat
  * </dependency>
  *
- * 注：在properties配置文件中，需要配置如下：（以方便controller层中拼串成视图名称，将视图名称+结果交给model and view,然后前端控制器dispatcher servlet
+ * 注1：在properties配置文件中，需要配置如下：（以方便controller层中拼串成视图名称，将视图名称+结果交给model and view,然后前端控制器dispatcher servlet
  * 将其交给视图解析器viewResolver解析）
  * spring.mvc.view.prefix=/WEB-INF/
  * spring.mvc.view.suffix=.jsp
+ *
+ * 注2：按照以下步骤操作：
+ * 项目结构-工件---> springboot-04-web-jsp:war exploded--->输出布局中（lib文件夹拖进 WEB-INF/路径下）
  *
  * 3.必须编写一个ServletInitializer类，没有这个类项目无法启动
  * 这个IDEA 在建立war包的项目时，自动生成了；不需要我们额外编写
@@ -53,6 +56,50 @@ public class Springboot04WebJspApplication {
  * https://blog.csdn.net/qq_47901630/article/details/128301561?utm_medium=distribute.pc_relevant.none-task-blog-2~default~baidujs_baidulandingword~default-1-128301561-blog-77425043.235^v43^control&spm=1001.2101.3001.4242.2&utm_relevant_index=4
  *
  * bug解决：卸载tomcat10，安装tomcat9后，问题解决；/abc请求可以正常访问了
+ *
+ * 十一、外部servlet启动spring boot应用的原理：
+ * 之前的jar包方式：创建spring boot应用，执行spring boot主类的main方法，创建ioc容器时，创建一个嵌入式的servlet容器（tomcat）
+ * 当前war包方式：启动服务器，服务器启动spring boot应用【SpringBootServletInitializer】，然后再启动ioc容器
+ *
+ * servlet3.0 以后版本规则：
+ * java-pro/文档/servlet-3_1-final.pdf文件：8.2.4章节（Shared libraries / runtimes pluggability）
+ * 规则：
+ * 1.服务器启动（web应用启动）会创建当前应用的每个jar包里的ServletContainerInitializer实例
+ * 2.ServletContainerInitializer的实现放在META-INF/services/文件夹下，该文件夹下有一个文件javax.servlet.ServletContainerInitializer，
+ * 文件的内容就是它的实现类的全类名
+ * 3.ServletContainerInitializer还可以使用 @HandleTypes注解，在应用加载时，添加我们感兴趣的类
+ *
+ * 归纳上面的流程：
+ * 1.服务器启动
+ * 2.在所有jar包里的META-INF/services/下，找javax.servlet.ServletContainerInitializer；
+ * 它在这个路径下：jetbrains://idea/navigate/reference?project=springboot-04-web-jsp&path=~\.m2\repository\org\springframework\spring-web\5.3.23\spring-web-5.3.23.jar!\META-INF\services\javax.servlet.ServletContainerInitializer
+ * 实际上在外部库里库名为（ Maven:org.springframework:spring-web:53.23）的里面
+ * javax.servlet.ServletContainerInitializer这个文件里的内容很简单，就是：org.springframework.web.SpringServletContainerInitializer
+ *
+ * 查看SpringServletContainerInitializer类，该类的@HandlesTypes注解中有一个全类名（主要分析它）
+ * 3.SpringServletContainerInitializer将注解@HandlesTypes({WebApplicationInitializer.class})里面的类传给onStartup方法的Set<class<?>>类型参数，
+ * 为这些WebApplicationInitializer创建实例
+ * 4.每个WebApplicationInitializer调用onStartup()方法
+ * 5.也就是SpringBootServletInitializer会创建对象，并执行onStartup()方法
+ * web项目必须写的类ServletInitializer--->继承自SpringBootServletInitializer--->而父类SpringBootServletInitializer实现了接口
+ * WebApplicationInitializer
+ *
+ * 6.SpringBootServletInitializer执行onStartup()方法时，会使用相应的方法（this.createRootApplicationContext(servletContext)）创建容器
+ * WebApplicationContext rootApplicationContext = this.createRootApplicationContext(servletContext);
+ * 7.Spring的应用就启动了
+ *
+ * 十二、Docker容器（取代之前的虚拟机，虚拟机启动要好长时间）
+ * 12.1 Docker简介
+ * Docker是一个开源的容器引擎；基于go语言并遵从apache2.0协议开源
+ * 1.Docker支持软件编译成一个镜像
+ * 2.然后再镜像中做好配置，再将镜像发布出去，然后，其他使用者可以直接使用这个镜像
+ * 3.运行中的镜像叫做容器，容器启动是非常快的
+ * 12.2 Docker核心概念
+ * 参考文档：
+ * https://www.bilibili.com/video/BV1Et411Y7tQ?p=53&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
+ *
+ *
+ *
  *
  *
  *
