@@ -105,13 +105,105 @@ public class Springboot04WebJspApplication {
  * Docker镜像（images）:软件打包好的镜像，这些镜像放在仓库中
  * Docker容器（container）:镜像启动以后得实例，称之为容器
  *
- * 使用Docker的步骤：
+ * 12.3 使用Docker的步骤：
  * 1.安装Docker
  * 2.去Docker仓库找到这个软件的镜像
  * 3.使用Docker命令运行这个镜像，运行中的镜像称为容器
  * 4.对容器启动的停止，就是对软件的启动停止
  *
- * 
+ * 12.4 安装Docker的步骤：
+ * 1.VMWare、这里用virtual box，免费的虚拟机
+ * 2.导入虚拟机文件centos7
+ * 3.启动虚拟机，输入用户名和密码（默认是：root 和 123456）
+ * 4.使用客户端连接linux进行操作（安装SmarTTY-2.2.msi）
+ * 5.设置虚拟机网络
+ * 桥接网络-选好网卡-接入网络
+ * 6.设置好命令后，重启虚拟机
+ * 命令：
+ * service network restart
+ * 7.查看linux的ip地址
+ * 命令：ip addr
+ * 8.打开SmartTTY，输入
+ * 虚拟机ip地址
+ * 用户名：root
+ * 密码：123456
+ * 保存一下，save key,就弹出了一个界面
+ * 9.就可以在当前客户端中输入命令
+ *
+ * 12.5 在虚拟机上安装Docker
+ * 1.检查内核版本，要求必须是3.10及其以上
+ * 命令：uname -r
+ * 2.安装docker 命令：yum install docker
+ * 3.启动docker 命令：systemctl start docker
+ *
+ * 12.6 Docker常用命令-镜像操作
+ * a.搜索镜像 docker search 软件名称
+ * 例如：docker search mysql
+ *
+ * b.拉取镜像 docker pull 软件名称[:tag版本号]，不带版本号，默认拉取最新版本
+ * 例如：docker pull mysql:5.7.43
+ * docker pull mysql等价于docker pull mysql:latest
+ *
+ * c.删除指定的镜像 docker rmi image-id
+ *
+ * bug:
+ * docker证书过期，不能pull，解决参考文档：
+ * https://blog.csdn.net/qq_29864051/article/details/138305735
+ *
+ * 12.7 Docker常用命令-容器操作
+ * 软件镜像-运行镜像-产生一个容器
+ *
+ * a.搜索和拉取镜像后，运行镜像（docker search 镜像名、docker pull 镜像名）
+ * 运行镜像，产生一个容器
+ * docker run --name myTomcat -d tomcat:latest
+ * 语法：docker run --name (自己命名) -d 镜像名:版本号 ，其中-d 表示后台运行
+ *
+ * 【docker常用问题排查步骤】
+ * 1.检查docker服务是否正常运行？
+ * systemctl status docker
+ * 如果服务没有运行？
+ * systemctl start docker
+ *
+ * 2.检查docker镜像是否存在？
+ * docker images
+ * 如果列表为空，拉取一个镜像
+ * docker pull 镜像名
+ *
+ * 3.检查docker容器是否存在
+ * docker ps -a
+ *
+ * 4.清理无用的容器和镜像
+ * docker container prune
+ *
+ * 清理无用的镜像
+ * docker image prune
+ *
+ * 以上都没解决？
+ * 重启服务
+ * systemctl restart docker
+ * 并运行镜像
+ * docker run --name 自己命名 -d 镜像:tag版本号
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ * b.
+ * c.
+ * d.
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
  *
  *
  *
