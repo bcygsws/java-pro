@@ -94,9 +94,25 @@ public class Springboot04WebJspApplication {
  * 1.Docker支持软件编译成一个镜像
  * 2.然后再镜像中做好配置，再将镜像发布出去，然后，其他使用者可以直接使用这个镜像
  * 3.运行中的镜像叫做容器，容器启动是非常快的
- * 12.2 Docker核心概念
+ *
+ *
  * 参考文档：
  * https://www.bilibili.com/video/BV1Et411Y7tQ?p=53&spm_id_from=pageDriver&vd_source=2806005ba784a40cae4906d632a64bd6
+ * 12.2 Docker核心概念
+ * Docker主机（host）:安装了docker程序的机器（在操作系统之上，windows或者linux等等）
+ * Docker客户端（client）:连接Docker主机进行操作
+ * Docker仓库（repository）：用来保存各种打包好的软件镜像的
+ * Docker镜像（images）:软件打包好的镜像，这些镜像放在仓库中
+ * Docker容器（container）:镜像启动以后得实例，称之为容器
+ *
+ * 使用Docker的步骤：
+ * 1.安装Docker
+ * 2.去Docker仓库找到这个软件的镜像
+ * 3.使用Docker命令运行这个镜像，运行中的镜像称为容器
+ * 4.对容器启动的停止，就是对软件的启动停止
+ *
+ * 
+ *
  *
  *
  *
